@@ -14,16 +14,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(prepend: [
-            IdentifyTenant::class,
-        ]);
         $middleware->api(prepend: [
             IdentifyTenant::class,
         ]);
 
         $middleware->alias([
             'role' => RoleMiddleware::class,
+            'tenant' => IdentifyTenant::class,
         ]);
+
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => route('dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -16,15 +16,32 @@ class IdentifyTenant
         }
 
         $subdomain = $this->resolveSubdomain($request);
+        $tenant = null;
 
-        if ($subdomain === null || $subdomain === '') {
-            abort(404);
-        }
+        if ($subdomain !== null && $subdomain !== '') {
+            $tenant = Tenant::query()->where('subdomain', $subdomain)->first();
 
-        $tenant = Tenant::query()->where('subdomain', $subdomain)->first();
+            if ($tenant === null) {
+                abort(404);
+            }
 
-        if ($tenant === null) {
-            abort(404);
+            $user = $request->user();
+
+            if ($user !== null && (int) $user->tenant_id !== (int) $tenant->id) {
+                abort(403);
+            }
+        } else {
+            $user = $request->user();
+
+            if ($user === null) {
+                abort(404);
+            }
+
+            $tenant = Tenant::query()->find($user->tenant_id);
+
+            if ($tenant === null) {
+                abort(404);
+            }
         }
 
         if ($tenant->status === Tenant::STATUS_SUSPENDED) {
