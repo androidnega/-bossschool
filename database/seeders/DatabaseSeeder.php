@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             'tenant_id' => $tenant->id,
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role' => UserRole::Admin->value,
         ]);
     }
 }
