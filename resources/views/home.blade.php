@@ -1,11 +1,11 @@
 @extends('layouts.marketing')
 
-@section('body_class', 'min-h-screen bg-canvas font-sans text-gray-900 antialiased')
+@section('body_class', 'min-h-screen overflow-y-auto bg-canvas font-sans text-gray-900 antialiased lg:h-screen lg:overflow-hidden')
 
 @section('title', __('School management for modern schools'))
 
 @section('content')
-    <div class="flex min-h-screen flex-col bg-canvas">
+    <div class="flex min-h-screen flex-col bg-canvas lg:h-screen lg:min-h-0 lg:overflow-hidden">
         <header class="flex shrink-0 items-center justify-between gap-3 border-b border-stone-200/80 bg-white px-4 py-3 sm:px-6 lg:px-10">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-stone-900">
                 <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">B</span>
@@ -37,8 +37,8 @@
             </nav>
         </header>
 
-        <main class="flex flex-col bg-canvas pt-10 sm:pt-12 lg:flex-row lg:items-start lg:pt-14 xl:pt-16">
-            <div class="flex flex-col justify-center px-5 pb-10 pt-4 sm:px-8 sm:pb-12 sm:pt-6 lg:w-[52%] lg:shrink-0 lg:px-10 lg:pb-14 lg:pt-8 xl:px-14 xl:pb-16">
+        <main class="flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-hidden">
+            <div class="flex flex-col justify-center px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:min-h-0 lg:w-[52%] lg:shrink-0 lg:overflow-y-auto lg:px-10 lg:pb-8 lg:pt-6 xl:px-14">
                 <div class="mx-auto w-full max-w-xl">
                     <p class="text-xs font-semibold uppercase tracking-wider text-primary">{{ __('School management') }}</p>
                     <h1 class="mt-2 text-3xl font-bold leading-tight tracking-tight text-stone-900 sm:text-4xl">
@@ -83,7 +83,8 @@
                 </div>
             </div>
 
-            <div class="hidden bg-canvas lg:flex lg:w-[48%] lg:shrink-0 lg:items-center lg:justify-center lg:px-6 lg:pb-12 lg:pt-6 xl:px-10 xl:pb-16">
+            {{-- Hidden on very small phones; below hero from sm; right column on lg --}}
+            <div class="hidden min-h-0 flex-1 flex-col items-center justify-center border-t border-stone-200/70 bg-canvas px-4 py-8 sm:flex sm:py-10 md:scale-[0.94] lg:w-[48%] lg:shrink-0 lg:scale-100 lg:border-t-0 lg:border-l-0 lg:px-8 lg:py-5 xl:px-10">
                 <x-home-hero-animation />
             </div>
         </main>
