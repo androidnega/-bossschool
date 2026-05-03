@@ -83,15 +83,8 @@
                 </div>
             </div>
 
-            <div class="hidden bg-canvas lg:block lg:w-[48%] lg:shrink-0 lg:px-6 lg:pb-12 lg:pt-6 xl:px-10 xl:pb-16">
-                <img
-                    src="{{ $heroGif }}"
-                    alt="{{ __('Illustration of a team collaborating at work') }}"
-                    class="mx-auto block h-auto w-full max-w-full"
-                    loading="lazy"
-                    decoding="async"
-                    referrerpolicy="no-referrer"
-                />
+            <div class="hidden bg-canvas lg:flex lg:w-[48%] lg:shrink-0 lg:items-center lg:justify-center lg:px-6 lg:pb-12 lg:pt-6 xl:px-10 xl:pb-16">
+                <x-home-hero-animation />
             </div>
         </main>
     </div>

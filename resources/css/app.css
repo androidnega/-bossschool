@@ -1,16 +1,201 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@layer components {
+    .dash-card-students {
+        background-color: #eaf7f6;
+    }
+    .dash-card-revenue {
+        background-color: #eaf8ef;
+    }
+    .dash-card-debtors {
+        background-color: #fff7e6;
+    }
+    .dash-card-attendance {
+        background-color: #eef2ff;
+    }
+    .dash-card-staff {
+        background-color: #f6f7fb;
+    }
+    .dash-card-results {
+        background-color: #f0fdf4;
+    }
+    .dash-card-messages {
+        background-color: #fdf2f8;
+    }
+    .dash-card-danger {
+        background-color: #fff1f2;
+    }
+    .dash-card-platform {
+        background-color: #f1f5f9;
+    }
+    .dash-card-neutral {
+        background-color: #fafaf9;
+    }
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Homepage hero: pure SVG + CSS (school / dashboard / SMS waves) */
+    @keyframes home-anim-float {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
 
-    --color-primary: #3e8a8e;
-    --color-secondary: #7fa58c;
-    --color-accent: #b7c49a;
-    --color-page: #ffffff;
+    @keyframes home-anim-bar-rise {
+        0%,
+        100% {
+            transform: scaleY(0.38);
+            opacity: 0.65;
+        }
+        50% {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes home-anim-orb-pulse {
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.08);
+            opacity: 0.75;
+        }
+    }
+
+    @keyframes home-anim-tick-draw {
+        0%,
+        20% {
+            stroke-dashoffset: 16;
+            opacity: 0.3;
+        }
+        45%,
+        70% {
+            stroke-dashoffset: 0;
+            opacity: 1;
+        }
+        100% {
+            stroke-dashoffset: 0;
+            opacity: 0.85;
+        }
+    }
+
+    @keyframes home-anim-wave-slide {
+        0%,
+        100% {
+            opacity: 0.2;
+        }
+        50% {
+            opacity: 0.95;
+        }
+    }
+
+    .home-anim-root {
+        color: #3e8a8e;
+    }
+
+    .home-anim-panel {
+        animation: home-anim-float 5.5s ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center center;
+    }
+
+    .home-anim-school {
+        animation: home-anim-float 6s ease-in-out infinite;
+        animation-delay: 0.4s;
+        transform-box: fill-box;
+        transform-origin: 108px 200px;
+    }
+
+    .home-anim-cap {
+        animation: home-anim-float 4.8s ease-in-out infinite;
+        animation-delay: 0.2s;
+        transform-box: fill-box;
+        transform-origin: 332px 118px;
+    }
+
+    .home-anim-orb {
+        transform-origin: center;
+        animation: home-anim-orb-pulse 7s ease-in-out infinite;
+    }
+
+    .home-anim-orb-b {
+        animation-delay: 1.5s;
+    }
+
+    .home-anim-bar {
+        transform-origin: center bottom;
+        transform-box: fill-box;
+        animation: home-anim-bar-rise 2.4s ease-in-out infinite;
+    }
+
+    .home-anim-bar-1 {
+        animation-delay: 0s;
+    }
+
+    .home-anim-bar-2 {
+        animation-delay: 0.18s;
+    }
+
+    .home-anim-bar-3 {
+        animation-delay: 0.36s;
+    }
+
+    .home-anim-bar-4 {
+        animation-delay: 0.54s;
+    }
+
+    .home-anim-tick {
+        stroke-dasharray: 16;
+        stroke-dashoffset: 16;
+        animation: home-anim-tick-draw 3.2s ease-in-out infinite;
+    }
+
+    .home-anim-tick-2 {
+        animation-delay: 0.35s;
+    }
+
+    .home-anim-tick-3 {
+        animation-delay: 0.7s;
+    }
+
+    .home-anim-wave {
+        animation: home-anim-wave-slide 2.8s ease-in-out infinite;
+    }
+
+    .home-anim-wave-2 {
+        animation-delay: 0.25s;
+    }
+
+    .home-anim-wave-3 {
+        animation-delay: 0.5s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-anim-panel,
+        .home-anim-school,
+        .home-anim-cap,
+        .home-anim-orb,
+        .home-anim-bar,
+        .home-anim-tick,
+        .home-anim-wave {
+            animation: none !important;
+        }
+
+        .home-anim-bar {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+
+        .home-anim-tick {
+            stroke-dashoffset: 0;
+            opacity: 1;
+        }
+    }
 }
