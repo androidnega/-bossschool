@@ -22,25 +22,14 @@
         <div class="flex min-h-0 min-w-0 flex-1 flex-col bg-white">
             <header class="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200/90 bg-white px-3 py-2.5 sm:px-4 lg:px-6">
                 <div class="flex min-w-0 flex-1 items-center gap-3">
-                    <label for="mobile-sidebar" class="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-600 shadow-sm transition hover:bg-stone-50 lg:hidden">
+                    <label for="mobile-sidebar" class="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-600 transition hover:bg-stone-50 lg:hidden">
                         <span class="sr-only">{{ __('Open menu') }}</span>
                         <i class="fa-solid fa-bars text-lg" aria-hidden="true"></i>
                     </label>
                     <span class="hidden min-w-0 truncate text-sm font-semibold text-stone-800 lg:inline">@yield('header-title', '')</span>
                 </div>
                 <div class="flex shrink-0 items-center gap-2 text-sm sm:gap-3">
-                    <span class="hidden max-w-[12rem] items-center gap-2 truncate text-stone-700 sm:flex">
-                        <i class="fa-solid fa-circle-user text-lg text-stone-400" aria-hidden="true"></i>
-                        <span class="truncate font-medium">{{ auth()->user()->name }}</span>
-                    </span>
-                    <span class="max-w-[9rem] truncate font-medium text-stone-700 sm:hidden">{{ auth()->user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}" class="shrink-0">
-                        @csrf
-                        <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-sm font-medium text-stone-600 shadow-sm transition hover:bg-stone-50 hover:text-stone-900">
-                            <i class="fa-solid fa-right-from-bracket text-stone-400" aria-hidden="true"></i>
-                            <span class="hidden sm:inline">{{ __('Log out') }}</span>
-                        </button>
-                    </form>
+                    @include('layouts.partials.user-menu')
                 </div>
             </header>
 

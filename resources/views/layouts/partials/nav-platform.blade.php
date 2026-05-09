@@ -4,7 +4,7 @@
     $navActiveDanger = 'flex items-center gap-3 rounded-xl bg-rose-50 px-3 py-2 text-[13px] font-semibold text-rose-900 ring-1 ring-rose-200/80';
 @endphp
 
-<nav class="flex flex-1 flex-col gap-1 overflow-y-auto overscroll-contain p-3 text-sm" aria-label="{{ __('Platform navigation') }}">
+<nav class="flex flex-1 flex-col gap-1 overflow-y-auto overscroll-contain rounded-2xl border border-stone-200/80 bg-white p-2.5 text-sm" aria-label="{{ __('Platform navigation') }}">
     <p class="px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-wider text-stone-400">{{ __('Overview') }}</p>
     <a href="{{ route('platform.dashboard') }}" class="{{ request()->routeIs('platform.dashboard') ? $navActive : $navBase }}">
         <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.9rem] opacity-90" aria-hidden="true"></i>
