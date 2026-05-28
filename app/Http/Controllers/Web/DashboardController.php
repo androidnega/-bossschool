@@ -36,15 +36,18 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
 
+        // Roles with their own bespoke dashboard view. Anything else (e.g.
+        // Headteacher, ExamOfficer, AttendanceOfficer, Librarian,
+        // InventoryOfficer, DisciplineOfficer) falls back to the Admin
+        // dashboard — they share the same tenant scope; what they can
+        // *do* is constrained by the permission layer, not the dashboard
+        // they land on.
         return match ($user->role) {
             UserRole::SuperAdmin->value
                 => App::call([App::make(PlatformDashboardController::class), '__invoke']),
 
             UserRole::Proprietor->value
                 => App::call([App::make(ProprietorDashboardController::class), '__invoke']),
-
-            UserRole::Admin->value
-                => App::call([App::make(AdminDashboardController::class), '__invoke']),
 
             UserRole::Accountant->value
                 => App::call([App::make(AccountantDashboardController::class), '__invoke']),
@@ -59,7 +62,7 @@ class DashboardController extends Controller
                 => $this->portalRedirect('portal.student.index'),
 
             default
-                => abort(403, __('No dashboard is configured for your role.')),
+                => App::call([App::make(AdminDashboardController::class), '__invoke']),
         };
     }
 
