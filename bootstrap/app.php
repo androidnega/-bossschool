@@ -63,7 +63,13 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             // Production 500: render a friendly page with the request id.
-            if ($code === 500 && app()->environment('production') && ! $request->expectsJson()) {
+            // Skip the friendly page when APP_DEBUG=true so operators can
+            // see the real Whoops/Ignition trace while debugging on
+            // production-tier environments.
+            if ($code === 500
+                && app()->environment('production')
+                && ! config('app.debug')
+                && ! $request->expectsJson()) {
                 return response()->view('errors.500', [
                     'request_id' => app('request.id'),
                 ], 500);
