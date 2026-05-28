@@ -58,12 +58,12 @@
 
     {{-- ─────────────── Sticky pill nav ─────────────── --}}
     <header class="sticky top-0 z-50 border-b border-slate-200/50 bg-[#f4f8ff]/80 backdrop-blur-xl transition-all">
-        <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('home') }}" class="group flex items-center gap-3">
-                <div class="brand-mark flex h-11 w-11 items-center justify-center rounded-xl text-white transition-transform group-hover:scale-105">
-                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:gap-3 sm:px-6 lg:px-8">
+            <a href="{{ route('home') }}" class="group flex min-w-0 items-center gap-2 sm:gap-3">
+                <div class="brand-mark flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white transition-transform group-hover:scale-105 sm:h-11 sm:w-11 sm:rounded-xl">
+                    <i class="fa-solid fa-graduation-cap text-base sm:text-xl"></i>
                 </div>
-                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">
+                <span class="truncate text-base font-extrabold tracking-tight text-[#0a1228] sm:text-xl">
                     Boss<span class="gradient-text">School</span>
                 </span>
             </a>
@@ -75,14 +75,15 @@
                 <a href="#why" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-all">{{ __('Why BossSchool') }}</a>
             </nav>
 
-            <div class="flex items-center gap-3">
+            <div class="flex shrink-0 items-center gap-2 sm:gap-3">
                 @auth
                     <a href="{{ route('dashboard') }}" class="hidden px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:text-blue-600 sm:inline-block">{{ __('Dashboard') }}</a>
                 @else
                     <a href="{{ route('login') }}" class="hidden px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:text-blue-600 sm:inline-block">{{ __('Sign In') }}</a>
                 @endauth
-                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="rounded-xl bg-[#0a1228] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:bg-slate-900 active:translate-y-0">
-                    {{ __('Book Demo') }}
+                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="rounded-lg bg-[#0a1228] px-3 py-2 text-xs font-bold text-white shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:bg-slate-900 active:translate-y-0 sm:rounded-xl sm:px-5 sm:py-3 sm:text-sm">
+                    <span class="hidden sm:inline">{{ __('Book Demo') }}</span>
+                    <span class="sm:hidden">{{ __('Demo') }}</span>
                 </a>
             </div>
         </div>
@@ -91,20 +92,20 @@
     <main class="relative z-10">
 
         {{-- ─────────────── Hero ─────────────── --}}
-        <section class="pt-8 pb-16 lg:pt-16 lg:pb-24">
+        <section class="pt-6 pb-12 sm:pt-10 sm:pb-16 lg:pt-16 lg:pb-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
+                <div class="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-8">
                     {{-- Left copy --}}
-                    <div class="space-y-6 text-center lg:col-span-5 lg:text-left">
-                        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-sm">
-                            <span class="relative flex h-2 w-2">
+                    <div class="space-y-5 text-center sm:space-y-6 lg:col-span-5 lg:text-left">
+                        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-[11px] font-bold text-blue-700 shadow-sm sm:text-xs">
+                            <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
                             </span>
                             {{ __('Built for Ghanaian basic schools') }}
                         </div>
 
-                        <h1 class="text-4xl font-extrabold leading-[1.05] tracking-tight text-[#0a1228] sm:text-5xl lg:text-[56px]">
+                        <h1 class="text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0a1228] sm:text-5xl sm:leading-[1.05] lg:text-[56px]">
                             {{ __('The intelligence engine behind modern') }}
                             <span class="gradient-text">{{ __('academies') }}</span>.
                         </h1>
@@ -113,34 +114,34 @@
                             {{ __('One quiet workspace for admissions, fees, attendance, results, report cards and parent messages — designed for primary and JHS schools in Ghana.') }}
                         </p>
 
-                        <div class="flex flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row lg:justify-start">
+                        <div class="flex flex-col items-stretch justify-center gap-3 pt-1 sm:flex-row sm:items-center sm:gap-3.5 sm:pt-2 lg:justify-start">
                             @auth
-                                <a href="{{ route('dashboard') }}" class="cta-grad w-full rounded-xl px-8 py-4 text-center text-sm font-bold text-white sm:w-auto">
+                                <a href="{{ route('dashboard') }}" class="cta-grad w-full rounded-xl px-6 py-3.5 text-center text-sm font-bold text-white sm:w-auto sm:px-8 sm:py-4">
                                     {{ __('Open Dashboard') }}
                                 </a>
                             @else
-                                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="cta-grad w-full rounded-xl px-8 py-4 text-center text-sm font-bold text-white sm:w-auto">
+                                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="cta-grad w-full rounded-xl px-6 py-3.5 text-center text-sm font-bold text-white sm:w-auto sm:px-8 sm:py-4">
                                     {{ __('Start Setup Wizard') }}
                                 </a>
                             @endauth
-                            <a href="#preview" class="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 text-center text-sm font-bold text-slate-800 shadow-sm transition-all hover:bg-slate-50 sm:w-auto">
+                            <a href="#preview" class="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-center text-sm font-bold text-slate-800 shadow-sm transition-all hover:bg-slate-50 sm:w-auto sm:px-8 sm:py-4">
                                 <i class="fa-solid fa-circle-play text-blue-600 transition-transform group-hover:scale-110"></i>
                                 {{ __('Live preview') }}
                             </a>
                         </div>
 
-                        <div class="mx-auto grid max-w-md grid-cols-3 gap-4 border-t border-slate-200/60 pt-6 lg:mx-0">
-                            <div>
-                                <span class="block text-2xl font-extrabold text-[#0a1228]">99.9%</span>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Uptime SLA') }}</span>
+                        <div class="mx-auto grid max-w-md grid-cols-3 gap-3 border-t border-slate-200/60 pt-5 sm:gap-4 sm:pt-6 lg:mx-0">
+                            <div class="min-w-0">
+                                <span class="block text-xl font-extrabold text-[#0a1228] sm:text-2xl">99.9%</span>
+                                <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">{{ __('Uptime SLA') }}</span>
                             </div>
-                            <div>
-                                <span class="block text-2xl font-extrabold text-[#0a1228]">&lt; 3ms</span>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Load sync') }}</span>
+                            <div class="min-w-0">
+                                <span class="block text-xl font-extrabold text-[#0a1228] sm:text-2xl">&lt; 3ms</span>
+                                <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">{{ __('Load sync') }}</span>
                             </div>
-                            <div>
-                                <span class="block text-2xl font-extrabold text-[#0a1228]">256-bit</span>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Encryption') }}</span>
+                            <div class="min-w-0">
+                                <span class="block text-xl font-extrabold text-[#0a1228] sm:text-2xl">256-bit</span>
+                                <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">{{ __('Encryption') }}</span>
                             </div>
                         </div>
                     </div>
@@ -151,17 +152,17 @@
 
                         <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl backdrop-blur-sm">
                             {{-- Sleek tab bar --}}
-                            <div class="flex items-center justify-between bg-slate-900 px-5 py-4">
-                                <div class="flex items-center gap-2">
+                            <div class="flex items-center justify-between gap-2 bg-slate-900 px-3 py-3 sm:px-5 sm:py-4">
+                                <div class="flex min-w-0 items-center gap-2">
                                     <span class="h-3 w-3 rounded-full bg-slate-700"></span>
                                     <span class="h-3 w-3 rounded-full bg-slate-700"></span>
                                     <span class="h-3 w-3 rounded-full bg-slate-700"></span>
-                                    <div class="ml-3 flex items-center gap-2 rounded-md bg-slate-800 px-3 py-1 font-mono text-[10px] text-slate-400">
+                                    <div class="ml-1 hidden min-w-0 items-center gap-2 rounded-md bg-slate-800 px-3 py-1 font-mono text-[10px] text-slate-400 sm:ml-3 sm:flex">
                                         <i class="fa-solid fa-lock text-[8px] text-emerald-400"></i>
-                                        core-analytics.bossschool.io
+                                        <span class="truncate">core-analytics.bossschool.io</span>
                                     </div>
                                 </div>
-                                <span class="rounded bg-blue-600 px-2 py-0.5 text-xs font-bold text-white">{{ __('Live preview') }}</span>
+                                <span class="shrink-0 rounded bg-blue-600 px-2 py-0.5 text-[10px] font-bold text-white sm:text-xs">{{ __('Live preview') }}</span>
                             </div>
 
                             <div class="grid grid-cols-12 bg-slate-50/50">
@@ -192,38 +193,38 @@
                                 </aside>
 
                                 {{-- Work area --}}
-                                <main class="col-span-12 space-y-5 p-5 sm:col-span-9">
-                                    <div class="grid grid-cols-3 gap-3">
-                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
-                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Total intake') }}</span>
-                                            <div class="flex items-baseline justify-between">
-                                                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">2,840</span>
-                                                <span class="rounded bg-emerald-50 px-1 text-[10px] font-bold text-emerald-600">+4.2%</span>
+                                <main class="col-span-12 space-y-4 p-3 sm:col-span-9 sm:space-y-5 sm:p-5">
+                                    <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                                        <div class="min-w-0 space-y-1 rounded-xl border border-slate-200/80 bg-white p-2.5 shadow-sm sm:p-3.5">
+                                            <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">{{ __('Total intake') }}</span>
+                                            <div class="flex flex-wrap items-baseline justify-between gap-1">
+                                                <span class="text-base font-extrabold tracking-tight text-[#0a1228] sm:text-xl">2,840</span>
+                                                <span class="rounded bg-emerald-50 px-1 text-[9px] font-bold text-emerald-600 sm:text-[10px]">+4.2%</span>
                                             </div>
                                         </div>
-                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
-                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Daily attendance') }}</span>
-                                            <div class="flex items-baseline justify-between">
-                                                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">94.2%</span>
-                                                <span class="rounded bg-blue-50 px-1 text-[10px] font-bold text-blue-600">{{ __('Optimal') }}</span>
+                                        <div class="min-w-0 space-y-1 rounded-xl border border-slate-200/80 bg-white p-2.5 shadow-sm sm:p-3.5">
+                                            <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">{{ __('Daily attendance') }}</span>
+                                            <div class="flex flex-wrap items-baseline justify-between gap-1">
+                                                <span class="text-base font-extrabold tracking-tight text-[#0a1228] sm:text-xl">94.2%</span>
+                                                <span class="rounded bg-blue-50 px-1 text-[9px] font-bold text-blue-600 sm:text-[10px]">{{ __('Optimal') }}</span>
                                             </div>
                                         </div>
-                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
-                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Net revenue') }}</span>
-                                            <div class="flex items-baseline justify-between">
-                                                <span class="text-xl font-extrabold tracking-tight text-emerald-600">88%</span>
-                                                <span class="rounded bg-amber-50 px-1 text-[10px] font-bold text-amber-600">{{ __('Pending') }}</span>
+                                        <div class="min-w-0 space-y-1 rounded-xl border border-slate-200/80 bg-white p-2.5 shadow-sm sm:p-3.5">
+                                            <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">{{ __('Net revenue') }}</span>
+                                            <div class="flex flex-wrap items-baseline justify-between gap-1">
+                                                <span class="text-base font-extrabold tracking-tight text-emerald-600 sm:text-xl">88%</span>
+                                                <span class="rounded bg-amber-50 px-1 text-[9px] font-bold text-amber-600 sm:text-[10px]">{{ __('Pending') }}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="space-y-4 rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm">
-                                        <div class="flex items-center justify-between">
-                                            <div>
+                                    <div class="space-y-4 rounded-xl border border-slate-200/80 bg-white p-3 shadow-sm sm:p-4">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <div class="min-w-0">
                                                 <h4 class="text-xs font-bold text-[#0a1228]">{{ __('Revenue tracking against term goal') }}</h4>
-                                                <p class="text-[10px] text-slate-400">{{ __('Automated multi-ledger updates · synced 2m ago') }}</p>
+                                                <p class="hidden text-[10px] text-slate-400 sm:block">{{ __('Automated multi-ledger updates · synced 2m ago') }}</p>
                                             </div>
-                                            <span class="rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600">{{ __('Live stream') }}</span>
+                                            <span class="shrink-0 rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600">{{ __('Live stream') }}</span>
                                         </div>
 
                                         <div class="flex h-28 w-full items-end gap-3 border-b border-slate-100 px-2 pt-4">
@@ -252,9 +253,9 @@
         </section>
 
         {{-- ─────────────── Feature pillars ─────────────── --}}
-        <section id="modules" class="relative border-y border-slate-200/60 bg-white py-24">
+        <section id="modules" class="relative border-y border-slate-200/60 bg-white py-14 sm:py-20 lg:py-24">
             <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto mb-20 max-w-3xl space-y-4 text-center">
+                <div class="mx-auto mb-12 max-w-3xl space-y-4 text-center sm:mb-16 lg:mb-20">
                     <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('Robust infrastructure') }}</span>
                     <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
                         {{ __('Engineered for modern multi-campus workflows.') }}
@@ -275,13 +276,13 @@
                     ];
                 @endphp
 
-                <div class="grid gap-8 p-1 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-5 p-1 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
                     @foreach ($modules as [$icon, $title, $copy])
-                        <div class="group rounded-2xl border border-slate-200/70 bg-[#f4f8ff] p-8 shadow-sm transition-all duration-300 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-600/5">
-                            <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-100 bg-white text-blue-600 shadow-md transition-transform group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white">
+                        <div class="group rounded-2xl border border-slate-200/70 bg-[#f4f8ff] p-6 shadow-sm transition-all duration-300 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-600/5 sm:p-8">
+                            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-100 bg-white text-blue-600 shadow-md transition-transform group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white sm:mb-6">
                                 <i class="fa-solid {{ $icon }} text-lg"></i>
                             </div>
-                            <h3 class="mb-3 text-lg font-bold text-[#0a1228]">{{ $title }}</h3>
+                            <h3 class="mb-2 text-lg font-bold text-[#0a1228] sm:mb-3">{{ $title }}</h3>
                             <p class="text-sm leading-relaxed text-slate-600">{{ $copy }}</p>
                         </div>
                     @endforeach
@@ -290,9 +291,9 @@
         </section>
 
         {{-- ─────────────── Ecosystem (roles) ─────────────── --}}
-        <section id="roles" class="bg-[#f4f8ff] py-24">
+        <section id="roles" class="bg-[#f4f8ff] py-14 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mb-16 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <div class="mb-10 flex flex-col justify-between gap-4 sm:mb-16 md:flex-row md:items-end">
                     <div class="max-w-xl space-y-3 text-center md:text-left">
                         <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-sky-600">{{ __('Role management') }}</span>
                         <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
@@ -333,9 +334,9 @@
         </section>
 
         {{-- ─────────────── How a term flows ─────────────── --}}
-        <section class="bg-white py-24">
+        <section class="bg-white py-14 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto mb-16 max-w-2xl space-y-3 text-center">
+                <div class="mx-auto mb-10 max-w-2xl space-y-3 text-center sm:mb-16">
                     <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('A term, end to end') }}</span>
                     <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">{{ __('From day one to report cards.') }}</h2>
                 </div>
@@ -362,9 +363,9 @@
         </section>
 
         {{-- ─────────────── Why BossSchool ─────────────── --}}
-        <section id="why" class="bg-[#f4f8ff] py-24">
+        <section id="why" class="bg-[#f4f8ff] py-14 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20">
+                <div class="grid gap-10 sm:gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20">
                     <div class="space-y-4">
                         <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('Why BossSchool') }}</span>
                         <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
@@ -381,12 +382,12 @@
                             [__('SMS where it matters'),     __('Fee reminders, attendance alerts and emergency notices reach parents on a feature phone — not just an inbox.')],
                         ];
                     @endphp
-                    <dl class="grid gap-8 sm:grid-cols-2">
+                    <dl class="grid gap-6 sm:grid-cols-2 sm:gap-8">
                         @foreach ($reasons as [$title, $copy])
                             <div>
-                                <dt class="flex items-center gap-2 text-base font-bold text-[#0a1228]">
-                                    <i class="fa-solid fa-check text-blue-600"></i>
-                                    {{ $title }}
+                                <dt class="flex items-start gap-2 text-base font-bold text-[#0a1228]">
+                                    <i class="fa-solid fa-check mt-1 shrink-0 text-blue-600"></i>
+                                    <span class="min-w-0">{{ $title }}</span>
                                 </dt>
                                 <dd class="mt-2 pl-6 text-sm leading-relaxed text-slate-600">{{ $copy }}</dd>
                             </div>
@@ -397,19 +398,19 @@
         </section>
 
         {{-- ─────────────── Dark CTA banner ─────────────── --}}
-        <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <div class="relative space-y-6 overflow-hidden rounded-3xl bg-[#0a1228] p-8 text-center shadow-2xl shadow-slate-950/20 sm:p-12 lg:p-16">
+        <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
+            <div class="relative space-y-5 overflow-hidden rounded-2xl bg-[#0a1228] p-6 text-center shadow-2xl shadow-slate-950/20 sm:space-y-6 sm:rounded-3xl sm:p-12 lg:p-16">
                 <div class="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-blue-600/25 blur-[80px]"></div>
                 <div class="pointer-events-none absolute top-0 left-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-[80px]"></div>
 
-                <h3 class="relative mx-auto max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl">
+                <h3 class="relative mx-auto max-w-2xl text-xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
                     {{ __("Ready to transform your school's administrative framework?") }}
                 </h3>
-                <p class="relative mx-auto max-w-xl text-sm text-slate-400 sm:text-base">
+                <p class="relative mx-auto max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
                     {{ __('Get a sandbox configured for your school in under 10 minutes. No binding deployment paperwork required.') }}
                 </p>
-                <div class="relative pt-4">
-                    <a href="mailto:hello@bossschool.com?subject=BossSchool%20sandbox" class="inline-block w-full rounded-xl bg-white px-8 py-4 font-extrabold text-[#0a1228] shadow-md transition-all hover:bg-slate-100 sm:w-auto">
+                <div class="relative pt-2 sm:pt-4">
+                    <a href="mailto:hello@bossschool.com?subject=BossSchool%20sandbox" class="inline-block w-full rounded-xl bg-white px-6 py-3.5 text-sm font-extrabold text-[#0a1228] shadow-md transition-all hover:bg-slate-100 sm:w-auto sm:px-8 sm:py-4 sm:text-base">
                         {{ __('Request sandbox access') }}
                     </a>
                 </div>
