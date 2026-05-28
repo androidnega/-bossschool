@@ -64,7 +64,7 @@
                     <i class="fa-solid fa-graduation-cap text-xl"></i>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">
-                    Bo<span class="gradient-text">School</span>
+                    Boss<span class="gradient-text">School</span>
                 </span>
             </a>
 
