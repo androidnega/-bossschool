@@ -6,6 +6,84 @@
  * the Tailwind CDN.
  * ──────────────────────────────────────────────────────────────────────── */
 
+/* ────────────────────────────────────────────────────────────────────────
+ * Mobile responsiveness safety net
+ *
+ * Most blade files already use Tailwind responsive utilities correctly
+ * (overflow-x-auto on tables, flex-col sm:flex-row on forms, sm:table-cell
+ * to hide low-priority columns). These rules patch the remaining gaps so
+ * every page behaves on a phone:
+ *   - Tables without an explicit scroll wrapper still scroll horizontally
+ *     instead of pushing the page wider than the viewport.
+ *   - Long emails, URLs and IDs wrap instead of forcing horizontal scroll.
+ *   - Safe-area insets so iPhone notch / home indicator don't crop the UI.
+ *   - Touch-friendly min height on small interactive elements.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+
+@media (max-width: 639px) {
+    /* Tables: graceful horizontal scroll fallback when a parent wrapper
+       didn't already opt in to overflow-x-auto. Pages that already wrap
+       their tables (most do) won't notice this rule — they'll keep using
+       their explicit wrapper.
+
+       Skips PDF print views (.print-only, body.pdf) so server-side PDF
+       generation isn't affected. */
+    main table:not([data-no-mobile-scroll]) {
+        display: block;
+        overflow-x: auto;
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Long strings (emails, URLs, tenant subdomains) wrap instead of
+       blowing out the viewport. Restricted to paragraphs / body text so
+       it doesn't break code blocks or labels with intentional widths. */
+    main p,
+    main li,
+    main dd,
+    main .break-anywhere {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* Tighter content padding on phones — the layout shell uses p-4 by
+       default; this trims it slightly more on the smallest viewports. */
+    main > div.p-4 {
+        padding-left: 0.875rem;
+        padding-right: 0.875rem;
+    }
+
+    /* Buttons/links inside the main content area get a 40px minimum tap
+       target. Excludes inline link-styled buttons (.text-xs / chips). */
+    main button:not(:disabled):not(.text-xs):not([role="menuitem"]):not(.btn-inline),
+    main a.inline-flex.items-center {
+        min-height: 2.5rem;
+    }
+
+    /* Sticky headers inside dashboards stay sticky but shrink slightly. */
+    main header.sticky {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
+
+/* Tap regions on the sidebar drawer get a slightly larger hit area on
+   touch devices. Doesn't affect mouse / hover behavior. */
+@media (hover: none) and (pointer: coarse) {
+    aside nav a, aside nav button {
+        min-height: 2.75rem;
+    }
+}
+
+
 /* Dashboard module cards — single-fill surfaces */
 .dash-card-students   { background-color: #eaf7f6; }
 .dash-card-revenue    { background-color: #eaf8ef; }

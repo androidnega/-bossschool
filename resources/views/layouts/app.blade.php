@@ -32,8 +32,8 @@
                 </div>
             </header>
 
-            <div class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-white">
-                <div class="p-4 sm:p-6 lg:p-8">
+            <main class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-white">
+                <div class="p-3 sm:p-6 lg:p-8">
                     @if (session('status'))
                         <div class="mb-4 flex items-start gap-3 rounded-xl border border-secondary/30 bg-page-soft px-4 py-3 text-sm text-stone-800" role="status">
                             <i class="fa-solid fa-circle-check mt-0.5 text-secondary" aria-hidden="true"></i>
@@ -62,8 +62,25 @@
 
                     @yield('content')
                 </div>
-            </div>
+            </main>
         </div>
     </div>
+
+    {{-- Mobile: auto-close the sidebar drawer when the user taps a nav
+         link (otherwise it stays open on top of the page they just
+         navigated to until they manually dismiss it). --}}
+    <script>
+        (function () {
+            var toggle = document.getElementById('mobile-sidebar');
+            if (! toggle) return;
+            document.querySelectorAll('aside nav a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    if (window.matchMedia('(max-width: 1023px)').matches) {
+                        toggle.checked = false;
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

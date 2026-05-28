@@ -2,6 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ────────────────────────────────────────────────────────────────────────
+ * Mobile responsiveness safety net (kept in sync with public/css/app.css).
+ * Patches the gaps where blade files might not have used a Tailwind
+ * responsive utility — most already do, this is defensive.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+
+@media (max-width: 639px) {
+    main table:not([data-no-mobile-scroll]) {
+        display: block;
+        overflow-x: auto;
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    main p,
+    main li,
+    main dd,
+    main .break-anywhere {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    main > div.p-4 {
+        padding-left: 0.875rem;
+        padding-right: 0.875rem;
+    }
+
+    main button:not(:disabled):not(.text-xs):not([role="menuitem"]):not(.btn-inline),
+    main a.inline-flex.items-center {
+        min-height: 2.5rem;
+    }
+
+    main header.sticky {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    aside nav a, aside nav button {
+        min-height: 2.75rem;
+    }
+}
+
 @layer components {
     .dash-card-students {
         background-color: #eaf7f6;
