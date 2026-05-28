@@ -11,15 +11,6 @@
             @csrf
 
             <div>
-                <label for="subdomain" class="block text-sm font-medium text-gray-700">School subdomain</label>
-                <input id="subdomain" name="subdomain" type="text" value="{{ old('subdomain', 'demo') }}" autocomplete="organization"
-                    class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
-                @error('subdomain')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                     class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">

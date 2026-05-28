@@ -13,17 +13,42 @@ class AdminUserSeeder extends Seeder
     {
         $tenant = Tenant::query()->where('subdomain', 'demo')->firstOrFail();
 
-        User::query()->updateOrCreate(
+        $demoUsers = [
             [
-                'tenant_id' => $tenant->id,
                 'email' => 'admin@demo.com',
+                'name' => 'Demo Admin',
+                'role' => UserRole::Admin,
             ],
             [
-                'name' => 'Super Admin',
-                'password' => 'password',
-                'role' => UserRole::Admin->value,
-                'email_verified_at' => now(),
-            ]
-        );
+                'email' => 'proprietor@demo.com',
+                'name' => 'Demo Proprietor',
+                'role' => UserRole::Proprietor,
+            ],
+            [
+                'email' => 'accountant@demo.com',
+                'name' => 'Demo Accountant',
+                'role' => UserRole::Accountant,
+            ],
+            [
+                'email' => 'teacher@demo.com',
+                'name' => 'Demo Teacher',
+                'role' => UserRole::Teacher,
+            ],
+        ];
+
+        foreach ($demoUsers as $row) {
+            User::query()->updateOrCreate(
+                [
+                    'tenant_id' => $tenant->id,
+                    'email' => $row['email'],
+                ],
+                [
+                    'name' => $row['name'],
+                    'password' => 'password',
+                    'role' => $row['role']->value,
+                    'email_verified_at' => now(),
+                ]
+            );
+        }
     }
 }

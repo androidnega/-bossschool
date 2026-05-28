@@ -1,92 +1,439 @@
 @extends('layouts.marketing')
 
-@section('body_class', 'min-h-screen overflow-y-auto bg-canvas font-sans text-gray-900 antialiased lg:h-screen lg:overflow-hidden')
+@section('body_class', 'home-shell bg-[#f4f8ff] font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden min-h-screen')
 
-@section('title', __('School management for modern schools'))
+@section('title', __('A calm school management system for Ghana'))
+
+@section('meta_description', __('BossSchool brings admissions, fees, attendance, results, report cards and parent messaging into one calm workspace — built for primary and JHS schools in Ghana.'))
+
+@section('head_extra')
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
+    <style>
+        .home-shell { font-family: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif; }
+        .home-shell .gradient-text {
+            background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 55%, #1d4ed8 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .home-shell .brand-mark {
+            background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+            box-shadow: 0 14px 30px -10px rgba(37, 99, 235, 0.45);
+        }
+        .home-shell .cta-grad {
+            background-image: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+            box-shadow: 0 18px 40px -16px rgba(37, 99, 235, 0.55);
+            transition: all .25s ease;
+        }
+        .home-shell .cta-grad:hover {
+            background-image: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px);
+        }
+        .home-shell .glow-a { position: absolute; pointer-events: none; border-radius: 9999px;
+            filter: blur(120px); mix-blend-mode: multiply;
+            background: radial-gradient(closest-side, rgba(147,197,253,0.55), rgba(191,219,254,0)); }
+        .home-shell .glow-b { position: absolute; pointer-events: none; border-radius: 9999px;
+            filter: blur(110px); mix-blend-mode: multiply;
+            background: radial-gradient(closest-side, rgba(186,230,253,0.55), rgba(207,250,254,0)); }
+        @keyframes home-pulse-slow {
+            0%, 100% { opacity: 0.55; transform: translateY(0); }
+            50%      { opacity: 0.85; transform: translateY(-10px); }
+        }
+        .home-shell .glow-anim { animation: home-pulse-slow 6s ease-in-out infinite; }
+        .home-shell .glow-anim-2 { animation: home-pulse-slow 8s ease-in-out infinite 2s; }
+        @keyframes home-ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+        .home-shell .live-ping { animation: home-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
+        .home-shell ::-webkit-scrollbar { width: 8px; height: 8px; }
+        .home-shell ::-webkit-scrollbar-track { background: #f4f8ff; }
+        .home-shell ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .home-shell ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .home-shell .nav-pill a:hover { background-color: rgba(255,255,255,0.85); color: #0a1228; }
+    </style>
+@endsection
 
 @section('content')
-    <div class="flex min-h-screen flex-col bg-canvas lg:h-screen lg:min-h-0 lg:overflow-hidden">
-        <header class="flex shrink-0 items-center justify-between gap-3 border-b border-stone-200/80 bg-white px-4 py-3 sm:px-6 lg:px-10">
-            <a href="{{ route('home') }}" class="flex items-center gap-2 text-stone-900">
-                <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">B</span>
-                <span class="text-base font-semibold tracking-tight text-stone-900">BoSchool</span>
+    {{-- Top-area glowing background accents --}}
+    <div class="pointer-events-none absolute top-0 left-1/2 z-0 h-[520px] w-full max-w-7xl -translate-x-1/2 overflow-hidden opacity-50">
+        <div class="glow-a glow-anim absolute" style="top:-150px; left:8%; width:600px; height:600px;"></div>
+        <div class="glow-b glow-anim-2 absolute" style="top:-100px; right:5%; width:500px; height:500px;"></div>
+    </div>
+
+    {{-- ─────────────── Sticky pill nav ─────────────── --}}
+    <header class="sticky top-0 z-50 border-b border-slate-200/50 bg-[#f4f8ff]/80 backdrop-blur-xl transition-all">
+        <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <a href="{{ route('home') }}" class="group flex items-center gap-3">
+                <div class="brand-mark flex h-11 w-11 items-center justify-center rounded-xl text-white transition-transform group-hover:scale-105">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">
+                    Bo<span class="gradient-text">School</span>
+                </span>
             </a>
-            <nav class="flex shrink-0 flex-wrap items-center justify-end gap-2">
-                @if ($loggedIn)
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white transition hover:bg-primary/95 sm:px-4">
-                        <i class="fa-solid fa-gauge-high text-xs" aria-hidden="true"></i>
-                        <span class="hidden sm:inline">{{ __('Dashboard') }}</span>
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-[#F8FAF7] sm:px-4">
-                            <i class="fa-solid fa-right-from-bracket text-xs" aria-hidden="true"></i>
-                            <span class="hidden sm:inline">{{ __('Log out') }}</span>
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-800 transition hover:bg-[#F8FAF7] sm:px-4">
-                        <i class="fa-solid fa-right-to-bracket text-xs" aria-hidden="true"></i>
-                        {{ __('Login') }}
-                    </a>
-                    <a href="mailto:hello@boschool.com?subject=BoSchool%20demo%20request" class="inline-flex items-center gap-1.5 rounded-lg bg-secondary px-3 py-2 text-sm font-semibold text-white transition hover:bg-secondary/95 sm:px-4">
-                        <i class="fa-solid fa-calendar-check text-xs" aria-hidden="true"></i>
-                        {{ __('Request demo') }}
-                    </a>
-                @endif
+
+            <nav class="nav-pill hidden items-center gap-1 rounded-full border border-slate-200/30 bg-slate-200/40 p-1.5 backdrop-blur-sm md:flex">
+                <a href="#modules" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-all">{{ __('Modules') }}</a>
+                <a href="#roles" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-all">{{ __('Ecosystem') }}</a>
+                <a href="#preview" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-all">{{ __('Live Engine') }}</a>
+                <a href="#why" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-all">{{ __('Why BossSchool') }}</a>
             </nav>
-        </header>
 
-        <main class="flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-hidden">
-            <div class="flex flex-col justify-center px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:min-h-0 lg:w-[52%] lg:shrink-0 lg:overflow-y-auto lg:px-10 lg:pb-8 lg:pt-6 xl:px-14">
-                <div class="mx-auto w-full max-w-xl">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-primary">{{ __('School management') }}</p>
-                    <h1 class="mt-2 text-3xl font-bold leading-tight tracking-tight text-stone-900 sm:text-4xl">
-                        {{ __('Smart School Management for Modern Schools') }}
-                    </h1>
-                    <p class="mt-4 text-base leading-relaxed text-stone-600 sm:text-lg">
-                        {{ __('Manage students, fees, results, attendance, staff, parents, and reports from one clean dashboard.') }}
-                    </p>
+            <div class="flex items-center gap-3">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="hidden px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:text-blue-600 sm:inline-block">{{ __('Dashboard') }}</a>
+                @else
+                    <a href="{{ route('login') }}" class="hidden px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:text-blue-600 sm:inline-block">{{ __('Sign In') }}</a>
+                @endauth
+                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="rounded-xl bg-[#0a1228] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:bg-slate-900 active:translate-y-0">
+                    {{ __('Book Demo') }}
+                </a>
+            </div>
+        </div>
+    </header>
 
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        @if ($loggedIn)
-                            <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/95">
-                                <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
-                                {{ __('Dashboard') }}
+    <main class="relative z-10">
+
+        {{-- ─────────────── Hero ─────────────── --}}
+        <section class="pt-8 pb-16 lg:pt-16 lg:pb-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
+                    {{-- Left copy --}}
+                    <div class="space-y-6 text-center lg:col-span-5 lg:text-left">
+                        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-sm">
+                            <span class="relative flex h-2 w-2">
+                                <span class="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                            </span>
+                            {{ __('Built for Ghanaian basic schools') }}
+                        </div>
+
+                        <h1 class="text-4xl font-extrabold leading-[1.05] tracking-tight text-[#0a1228] sm:text-5xl lg:text-[56px]">
+                            {{ __('The intelligence engine behind modern') }}
+                            <span class="gradient-text">{{ __('academies') }}</span>.
+                        </h1>
+
+                        <p class="mx-auto max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
+                            {{ __('One quiet workspace for admissions, fees, attendance, results, report cards and parent messages — designed for primary and JHS schools in Ghana.') }}
+                        </p>
+
+                        <div class="flex flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row lg:justify-start">
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="cta-grad w-full rounded-xl px-8 py-4 text-center text-sm font-bold text-white sm:w-auto">
+                                    {{ __('Open Dashboard') }}
+                                </a>
+                            @else
+                                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="cta-grad w-full rounded-xl px-8 py-4 text-center text-sm font-bold text-white sm:w-auto">
+                                    {{ __('Start Setup Wizard') }}
+                                </a>
+                            @endauth
+                            <a href="#preview" class="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 text-center text-sm font-bold text-slate-800 shadow-sm transition-all hover:bg-slate-50 sm:w-auto">
+                                <i class="fa-solid fa-circle-play text-blue-600 transition-transform group-hover:scale-110"></i>
+                                {{ __('Live preview') }}
                             </a>
-                        @else
-                            <a href="{{ route('login') }}" class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/95">
-                                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                                {{ __('Login') }}
-                            </a>
-                            <a href="mailto:hello@boschool.com?subject=BoSchool%20demo%20request" class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-primary bg-white px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-[#E6EEC9]/50">
-                                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-                                {{ __('Request demo') }}
-                            </a>
-                        @endif
+                        </div>
+
+                        <div class="mx-auto grid max-w-md grid-cols-3 gap-4 border-t border-slate-200/60 pt-6 lg:mx-0">
+                            <div>
+                                <span class="block text-2xl font-extrabold text-[#0a1228]">99.9%</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Uptime SLA') }}</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-extrabold text-[#0a1228]">&lt; 3ms</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Load sync') }}</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-extrabold text-[#0a1228]">256-bit</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ __('Encryption') }}</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mt-8 flex flex-wrap gap-2">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-stone-200/90 bg-[#F8FAF7] px-3 py-1.5 text-xs font-medium text-stone-800 sm:text-sm">
-                            <i class="fa-solid fa-user-graduate text-primary" aria-hidden="true"></i>
-                            {{ __('Student Records') }}
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full border border-stone-200/90 bg-[#F8FAF7] px-3 py-1.5 text-xs font-medium text-stone-800 sm:text-sm">
-                            <i class="fa-solid fa-money-bill-wave text-secondary" aria-hidden="true"></i>
-                            {{ __('Fees & Payments') }}
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full border border-stone-200/90 bg-[#F8FAF7] px-3 py-1.5 text-xs font-medium text-stone-800 sm:text-sm">
-                            <i class="fa-solid fa-chart-line text-accent" aria-hidden="true"></i>
-                            {{ __('Results & Reports') }}
-                        </span>
+                    {{-- Right interactive dashboard mock --}}
+                    <div id="preview" class="relative lg:col-span-7">
+                        <div class="absolute -inset-2 rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-400 opacity-10 blur-2xl"></div>
+
+                        <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl backdrop-blur-sm">
+                            {{-- Sleek tab bar --}}
+                            <div class="flex items-center justify-between bg-slate-900 px-5 py-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="h-3 w-3 rounded-full bg-slate-700"></span>
+                                    <span class="h-3 w-3 rounded-full bg-slate-700"></span>
+                                    <span class="h-3 w-3 rounded-full bg-slate-700"></span>
+                                    <div class="ml-3 flex items-center gap-2 rounded-md bg-slate-800 px-3 py-1 font-mono text-[10px] text-slate-400">
+                                        <i class="fa-solid fa-lock text-[8px] text-emerald-400"></i>
+                                        core-analytics.bossschool.io
+                                    </div>
+                                </div>
+                                <span class="rounded bg-blue-600 px-2 py-0.5 text-xs font-bold text-white">{{ __('Live preview') }}</span>
+                            </div>
+
+                            <div class="grid grid-cols-12 bg-slate-50/50">
+                                {{-- Sidebar mock --}}
+                                <aside class="col-span-3 hidden space-y-4 border-r border-slate-200/60 bg-white p-4 sm:block">
+                                    <div class="space-y-1.5">
+                                        <div class="flex h-7 items-center gap-2 rounded-lg bg-blue-50 px-2 text-[11px] font-bold text-blue-700">
+                                            <i class="fa-solid fa-chart-pie"></i> {{ __('Control center') }}
+                                        </div>
+                                        <div class="flex h-7 items-center gap-2 rounded-lg px-2 text-[11px] font-semibold text-slate-500 hover:bg-slate-50">
+                                            <i class="fa-solid fa-users"></i> {{ __('Student roster') }}
+                                        </div>
+                                        <div class="flex h-7 items-center gap-2 rounded-lg px-2 text-[11px] font-semibold text-slate-500 hover:bg-slate-50">
+                                            <i class="fa-solid fa-credit-card"></i> {{ __('Fee management') }}
+                                        </div>
+                                        <div class="flex h-7 items-center gap-2 rounded-lg px-2 text-[11px] font-semibold text-slate-500 hover:bg-slate-50">
+                                            <i class="fa-solid fa-sliders"></i> {{ __('System settings') }}
+                                        </div>
+                                    </div>
+                                    <div class="border-t border-slate-100 pt-4">
+                                        <div class="rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 p-2.5 text-center text-[10px] text-white">
+                                            <p class="font-bold">{{ __('Term storage') }}</p>
+                                            <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
+                                                <div class="h-full w-2/3 rounded-full bg-white"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                {{-- Work area --}}
+                                <main class="col-span-12 space-y-5 p-5 sm:col-span-9">
+                                    <div class="grid grid-cols-3 gap-3">
+                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
+                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Total intake') }}</span>
+                                            <div class="flex items-baseline justify-between">
+                                                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">2,840</span>
+                                                <span class="rounded bg-emerald-50 px-1 text-[10px] font-bold text-emerald-600">+4.2%</span>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
+                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Daily attendance') }}</span>
+                                            <div class="flex items-baseline justify-between">
+                                                <span class="text-xl font-extrabold tracking-tight text-[#0a1228]">94.2%</span>
+                                                <span class="rounded bg-blue-50 px-1 text-[10px] font-bold text-blue-600">{{ __('Optimal') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-1 rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm">
+                                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Net revenue') }}</span>
+                                            <div class="flex items-baseline justify-between">
+                                                <span class="text-xl font-extrabold tracking-tight text-emerald-600">88%</span>
+                                                <span class="rounded bg-amber-50 px-1 text-[10px] font-bold text-amber-600">{{ __('Pending') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-4 rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="text-xs font-bold text-[#0a1228]">{{ __('Revenue tracking against term goal') }}</h4>
+                                                <p class="text-[10px] text-slate-400">{{ __('Automated multi-ledger updates · synced 2m ago') }}</p>
+                                            </div>
+                                            <span class="rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600">{{ __('Live stream') }}</span>
+                                        </div>
+
+                                        <div class="flex h-28 w-full items-end gap-3 border-b border-slate-100 px-2 pt-4">
+                                            <div class="relative h-[40%] w-full rounded-t-md bg-slate-100 transition-colors hover:bg-slate-200"></div>
+                                            <div class="relative h-[65%] w-full rounded-t-md bg-slate-100 transition-colors hover:bg-slate-200"></div>
+                                            <div class="relative h-[92%] w-full rounded-t-md bg-gradient-to-t from-blue-600 to-cyan-500">
+                                                <div class="absolute -top-6 left-1/2 -translate-x-1/2 rounded bg-[#0a1228] px-1 py-0.5 text-[8px] font-bold text-white">92%</div>
+                                            </div>
+                                            <div class="relative h-[50%] w-full rounded-t-md bg-slate-100 transition-colors hover:bg-slate-200"></div>
+                                            <div class="relative h-[78%] w-full rounded-t-md bg-gradient-to-t from-sky-600 to-cyan-400"></div>
+                                        </div>
+                                        <div class="flex items-center justify-between px-1 text-[9px] font-bold text-slate-400">
+                                            <span>{{ __('Primary 1') }}</span>
+                                            <span>{{ __('Primary 4') }}</span>
+                                            <span class="text-blue-600">{{ __('Primary 6') }}</span>
+                                            <span>{{ __('JHS 2') }}</span>
+                                            <span>{{ __('JHS 3') }}</span>
+                                        </div>
+                                    </div>
+                                </main>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            {{-- Hidden on very small phones; below hero from sm; right column on lg --}}
-            <div class="hidden min-h-0 flex-1 flex-col items-center justify-center border-t border-stone-200/70 bg-canvas px-4 py-8 sm:flex sm:py-10 md:scale-[0.94] lg:w-[48%] lg:shrink-0 lg:scale-100 lg:border-t-0 lg:border-l-0 lg:px-8 lg:py-5 xl:px-10">
-                <x-home-hero-animation />
+        {{-- ─────────────── Feature pillars ─────────────── --}}
+        <section id="modules" class="relative border-y border-slate-200/60 bg-white py-24">
+            <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto mb-20 max-w-3xl space-y-4 text-center">
+                    <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('Robust infrastructure') }}</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
+                        {{ __('Engineered for modern multi-campus workflows.') }}
+                    </h2>
+                    <p class="text-base leading-relaxed text-slate-500 sm:text-lg">
+                        {{ __('Say goodbye to clumsy legacy tools. Responsive workflows tailored for daily operations, administration and digital record keeping.') }}
+                    </p>
+                </div>
+
+                @php
+                    $modules = [
+                        ['fa-id-card',         __('Unified identity & rosters'), __('Manage admissions, profiles, document uploads and emergency contacts inside a single hub.')],
+                        ['fa-vault',           __('Fee ledgers & MoMo gateway'), __('Configure discount tiers, auto-generate invoices, accept MTN/Telecel/AirtelTigo and eliminate ledger discrepancies.')],
+                        ['fa-wand-magic-sparkles', __('Automated report builder'), __('Populate score matrices, compute weights and publish printable Ghanaian report cards effortlessly.')],
+                        ['fa-clipboard-user',  __('Attendance & registers'),    __('Daily class and staff attendance with parent-visible summaries and SMS alerts on absences.')],
+                        ['fa-comments',        __('Messaging & SMS'),           __('Reach a class, a parent or the whole school in seconds — fees, attendance, notices and emergencies.')],
+                        ['fa-shield-halved',   __('Multi-tenant by design'),    __('Every school is isolated. Your students, your fees, your data — never mixed with another school.')],
+                    ];
+                @endphp
+
+                <div class="grid gap-8 p-1 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($modules as [$icon, $title, $copy])
+                        <div class="group rounded-2xl border border-slate-200/70 bg-[#f4f8ff] p-8 shadow-sm transition-all duration-300 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-600/5">
+                            <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-100 bg-white text-blue-600 shadow-md transition-transform group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white">
+                                <i class="fa-solid {{ $icon }} text-lg"></i>
+                            </div>
+                            <h3 class="mb-3 text-lg font-bold text-[#0a1228]">{{ $title }}</h3>
+                            <p class="text-sm leading-relaxed text-slate-600">{{ $copy }}</p>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </main>
-    </div>
+        </section>
+
+        {{-- ─────────────── Ecosystem (roles) ─────────────── --}}
+        <section id="roles" class="bg-[#f4f8ff] py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-16 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                    <div class="max-w-xl space-y-3 text-center md:text-left">
+                        <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-sky-600">{{ __('Role management') }}</span>
+                        <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
+                            {{ __('Dedicated interfaces. Custom permissions.') }}
+                        </h2>
+                    </div>
+                    <p class="max-w-xs text-center text-sm font-medium text-slate-500 md:text-right">
+                        {{ __('Every system profile enjoys optimized views, distinct access boundaries and specialized action layouts.') }}
+                    </p>
+                </div>
+
+                @php
+                    $rolesGrid = [
+                        ['01', __('Super Administration'), __('Full visibility over campus finances, system roles, audit logs and configuration layers.'), 'bg-blue-600',   'bg-blue-50 text-blue-600',   'text-blue-600 group-hover:text-blue-700'],
+                        ['02', __('Educators & Faculty'),  __('Log attendance, modify assignment schedules, track grading marks and leave progress notes.'),     'bg-sky-600',    'bg-sky-50 text-sky-600',     'text-sky-600 group-hover:text-sky-700'],
+                        ['03', __('Parents & Guardians'),  __('Monitor progress cards, check behaviour logs, verify attendance and pay outstanding fees instantly.'), 'bg-emerald-600','bg-emerald-50 text-emerald-600','text-emerald-600 group-hover:text-emerald-700'],
+                        ['04', __('Student Terminal'),     __('Track assigned tasks, download shared resources, check historic grades and lecture timetables.'),  'bg-amber-600',  'bg-amber-50 text-amber-600', 'text-amber-600 group-hover:text-amber-700'],
+                    ];
+                @endphp
+
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach ($rolesGrid as [$num, $title, $copy, $bar, $chip, $link])
+                        <div class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg">
+                            <div class="absolute left-0 top-0 h-[3px] w-full {{ $bar }}"></div>
+                            <div class="space-y-4">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold {{ $chip }}">{{ $num }}</div>
+                                <h4 class="text-lg font-bold text-[#0a1228]">{{ $title }}</h4>
+                                <p class="text-xs leading-relaxed text-slate-500">{{ $copy }}</p>
+                            </div>
+                            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-6 text-xs font-bold {{ $link }}">
+                                {{ __('Launch interface') }}
+                                <i class="fa-solid fa-arrow-right-long transition-transform group-hover:translate-x-1"></i>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────── How a term flows ─────────────── --}}
+        <section class="bg-white py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto mb-16 max-w-2xl space-y-3 text-center">
+                    <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('A term, end to end') }}</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">{{ __('From day one to report cards.') }}</h2>
+                </div>
+
+                @php
+                    $steps = [
+                        [__('Open the term'),     __('Set the academic year, term dates and classes. Carry pupils over or admit new ones.')],
+                        [__('Invoice & collect'), __('Generate fee invoices, accept MoMo and cash, and watch debtors fall in real time.')],
+                        [__('Run the day'),       __('Teachers take attendance and record scores. Admins handle the rest from one place.')],
+                        [__('Publish & message'), __('Validate results, publish report cards as PDF and notify every parent in one click.')],
+                    ];
+                @endphp
+
+                <ol class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    @foreach ($steps as [$title, $copy])
+                        <li class="rounded-2xl border border-slate-200/70 bg-[#f4f8ff] p-6 transition-all hover:bg-white hover:shadow-xl hover:shadow-blue-600/5">
+                            <span class="inline-block rounded-md bg-blue-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">{{ sprintf(__('Step %02d'), $loop->iteration) }}</span>
+                            <h3 class="mt-4 text-lg font-bold leading-tight tracking-tight text-[#0a1228]">{{ $title }}</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $copy }}</p>
+                        </li>
+                    @endforeach
+                </ol>
+            </div>
+        </section>
+
+        {{-- ─────────────── Why BossSchool ─────────────── --}}
+        <section id="why" class="bg-[#f4f8ff] py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20">
+                    <div class="space-y-4">
+                        <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-600">{{ __('Why BossSchool') }}</span>
+                        <h2 class="text-3xl font-extrabold tracking-tight text-[#0a1228] sm:text-4xl">
+                            {{ __('Built for Ghanaian schools — not retrofitted.') }}
+                        </h2>
+                    </div>
+                    @php
+                        $reasons = [
+                            [__('Mobile Money first'),       __('Payments, reconciliation and receipts are designed around MoMo workflows from day one — not bolted on.')],
+                            [__('Ghana academic calendar'),  __('Terms, mid-term breaks, promotion rules and report-card formats that match how schools actually run.')],
+                            [__('Multi-tenant by design'),   __('Every school is isolated. Your students, your fees, your data — never mixed with another school.')],
+                            [__('Calm UI, fast on slow networks'), __('Lean pages, sensible defaults, keyboard-friendly forms — usable on a mid-range Android during a brown-out.')],
+                            [__('Bilingual-friendly'),       __('English by default with friendly, plain copy. Translations supported across the app.')],
+                            [__('SMS where it matters'),     __('Fee reminders, attendance alerts and emergency notices reach parents on a feature phone — not just an inbox.')],
+                        ];
+                    @endphp
+                    <dl class="grid gap-8 sm:grid-cols-2">
+                        @foreach ($reasons as [$title, $copy])
+                            <div>
+                                <dt class="flex items-center gap-2 text-base font-bold text-[#0a1228]">
+                                    <i class="fa-solid fa-check text-blue-600"></i>
+                                    {{ $title }}
+                                </dt>
+                                <dd class="mt-2 pl-6 text-sm leading-relaxed text-slate-600">{{ $copy }}</dd>
+                            </div>
+                        @endforeach
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        {{-- ─────────────── Dark CTA banner ─────────────── --}}
+        <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <div class="relative space-y-6 overflow-hidden rounded-3xl bg-[#0a1228] p-8 text-center shadow-2xl shadow-slate-950/20 sm:p-12 lg:p-16">
+                <div class="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-blue-600/25 blur-[80px]"></div>
+                <div class="pointer-events-none absolute top-0 left-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-[80px]"></div>
+
+                <h3 class="relative mx-auto max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl">
+                    {{ __("Ready to transform your school's administrative framework?") }}
+                </h3>
+                <p class="relative mx-auto max-w-xl text-sm text-slate-400 sm:text-base">
+                    {{ __('Get a sandbox configured for your school in under 10 minutes. No binding deployment paperwork required.') }}
+                </p>
+                <div class="relative pt-4">
+                    <a href="mailto:hello@bossschool.com?subject=BossSchool%20sandbox" class="inline-block w-full rounded-xl bg-white px-8 py-4 font-extrabold text-[#0a1228] shadow-md transition-all hover:bg-slate-100 sm:w-auto">
+                        {{ __('Request sandbox access') }}
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    {{-- ─────────────── Footer ─────────────── --}}
+    <footer class="border-t border-slate-200/80 bg-white py-12 text-sm text-slate-500">
+        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <div class="brand-mark flex h-8 w-8 items-center justify-center rounded-lg text-white">
+                    <i class="fa-solid fa-graduation-cap text-xs"></i>
+                </div>
+                <span class="text-base font-bold tracking-tight text-[#0a1228]">BossSchool</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 text-xs font-semibold text-slate-400">
+                <a href="#modules" class="transition-colors hover:text-blue-600">{{ __('Modules') }}</a>
+                <a href="#roles" class="transition-colors hover:text-blue-600">{{ __('Roles') }}</a>
+                <a href="#why" class="transition-colors hover:text-blue-600">{{ __('Why BossSchool') }}</a>
+                <a href="mailto:hello@bossschool.com" class="transition-colors hover:text-blue-600">{{ __('Contact') }}</a>
+            </div>
+            <p class="text-[11px] font-medium text-slate-400">&copy; {{ now()->year }} BossSchool · {{ __('Accra, Ghana') }}</p>
+        </div>
+    </footer>
 @endsection

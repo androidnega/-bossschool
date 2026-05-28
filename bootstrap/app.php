@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Middleware\AssignRequestId;
+use App\Http\Middleware\EnforceMaintenanceMode;
+use App\Http\Middleware\EnforceTwoFactor;
+use App\Http\Middleware\EnsureFeatureEnabled;
 use App\Http\Middleware\IdentifyTenant;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,6 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+            SecurityHeaders::class,
+            EnforceTwoFactor::class,
+        ]);
+
+        $middleware->prepend(AssignRequestId::class);
+
         $middleware->api(prepend: [
             IdentifyTenant::class,
         ]);
@@ -21,11 +33,42 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'tenant' => IdentifyTenant::class,
+            'maintenance' => EnforceMaintenanceMode::class,
+            'feature' => EnsureFeatureEnabled::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('login'));
-        $middleware->redirectUsersTo(fn () => route('dashboard'));
+        $middleware->redirectUsersTo(function (): string {
+            $user = auth()->user();
+
+            return $user ? $user->homeRoute() : route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->context(function () {
+            return [
+                'request_id' => app()->bound('request.id') ? app('request.id') : null,
+                'tenant_id' => optional(request()->user())->tenant_id,
+                'user_id' => optional(request()->user())->id,
+            ];
+        });
+
+        $exceptions->render(function (\Throwable $e, \Illuminate\Http\Request $request) {
+            if (! app()->bound('request.id')) {
+                return null;
+            }
+            $code = method_exists($e, 'getStatusCode') ? (int) $e->getStatusCode() : 500;
+            if (in_array($code, [403, 404, 419, 429], true)) {
+                return null; // let Laravel render errors/{code}.blade.php
+            }
+
+            // Production 500: render a friendly page with the request id.
+            if ($code === 500 && app()->environment('production') && ! $request->expectsJson()) {
+                return response()->view('errors.500', [
+                    'request_id' => app('request.id'),
+                ], 500);
+            }
+
+            return null;
+        });
     })->create();

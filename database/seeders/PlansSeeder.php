@@ -13,8 +13,11 @@ class PlansSeeder extends Seeder
             [
                 'name' => 'Starter',
                 'price' => '29.99',
+                'billing_cycle' => 'monthly',
                 'max_students' => 75,
                 'max_staff' => 5,
+                'is_active' => true,
+                'sort_order' => 10,
                 'features' => [
                     'core_sms',
                     'email_support',
@@ -24,8 +27,11 @@ class PlansSeeder extends Seeder
             [
                 'name' => 'Growth',
                 'price' => '79.99',
+                'billing_cycle' => 'monthly',
                 'max_students' => 250,
                 'max_staff' => 15,
+                'is_active' => true,
+                'sort_order' => 20,
                 'features' => [
                     'core_sms',
                     'priority_support',
@@ -36,8 +42,11 @@ class PlansSeeder extends Seeder
             [
                 'name' => 'Standard',
                 'price' => '149.99',
+                'billing_cycle' => 'yearly',
                 'max_students' => 600,
                 'max_staff' => 40,
+                'is_active' => true,
+                'sort_order' => 30,
                 'features' => [
                     'growth_features',
                     'custom_branding',
@@ -48,8 +57,11 @@ class PlansSeeder extends Seeder
             [
                 'name' => 'Premium',
                 'price' => '299.99',
+                'billing_cycle' => 'yearly',
                 'max_students' => 2500,
                 'max_staff' => 120,
+                'is_active' => true,
+                'sort_order' => 40,
                 'features' => [
                     'standard_features',
                     'dedicated_manager',

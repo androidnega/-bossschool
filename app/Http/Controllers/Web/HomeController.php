@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request): View
     {
-        return view('home', [
-            'loggedIn' => $request->user() !== null,
-        ]);
+        return view('home');
     }
 }

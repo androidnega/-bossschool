@@ -46,6 +46,16 @@ class UserPolicy
         return $user->role === UserRole::Admin->value;
     }
 
+    /**
+     * Right to edit teacher_subject / teacher_class pivots. Only
+     * Admin / Proprietor; teachers can read their own assignments via the
+     * existing relation but cannot mutate.
+     */
+    public function manageAssignments(User $user): bool
+    {
+        return $this->isAdminOrProprietor($user);
+    }
+
     private function sameTenant(User $user, Model $model): bool
     {
         return (int) $user->tenant_id === (int) $model->getAttribute('tenant_id');

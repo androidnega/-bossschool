@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@hasSection('title')BoSchool | @yield('title')@else BoSchool @endif</title>
+    <title>@hasSection('title')BossSchool | @yield('title')@else BossSchool @endif</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('layouts.partials.head-assets')
 </head>
 <body class="h-[100dvh] overflow-hidden bg-stone-100 font-sans text-gray-900 antialiased">
     <div class="flex h-full overflow-hidden">

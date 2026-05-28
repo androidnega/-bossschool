@@ -15,6 +15,15 @@ return [
     |
     */
 
+    /*
+    | When true, the EnforceTwoFactor middleware redirects privileged users
+    | (SuperAdmin always; school admins if their tenant_settings opts in) to
+    | the 2FA enrolment page until they finish setup. Defaults to true in
+    | production. Phpunit.xml flips this off so the broad existing tests
+    | don't have to bootstrap 2FA for every SuperAdmin actor.
+    */
+    'enforce_2fa' => (bool) env('AUTH_ENFORCE_2FA', true),
+
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),

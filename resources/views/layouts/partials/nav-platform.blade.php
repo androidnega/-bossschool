@@ -50,10 +50,10 @@
     </a>
 
     <p class="mt-4 px-3 pb-1 pt-2 text-[0.65rem] font-semibold uppercase tracking-wider text-stone-400">{{ __('Integrations') }}</p>
-    <span class="flex cursor-not-allowed items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-stone-400" title="{{ __('Coming soon') }}">
-        <i class="fa-solid fa-plug w-5 shrink-0 text-center text-[0.9rem] opacity-70" aria-hidden="true"></i>
-        <span>{{ __('API Access') }}</span>
-    </span>
+    <a href="{{ route('platform.payments.settings.index') }}" class="{{ request()->routeIs('platform.payments.*') ? $navActive : $navBase }}">
+        <i class="fa-solid fa-credit-card w-5 shrink-0 text-center text-[0.9rem] opacity-90" aria-hidden="true"></i>
+        <span>{{ __('Paystack') }}</span>
+    </a>
 
     @can('viewPlatformNotices')
         <p class="mt-4 px-3 pb-1 pt-2 text-[0.65rem] font-semibold uppercase tracking-wider text-stone-400">{{ __('Comms') }}</p>

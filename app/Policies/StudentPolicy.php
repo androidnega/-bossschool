@@ -11,12 +11,32 @@ class StudentPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $this->hasStaffRole($user);
+        return $this->hasAcademicStaffRole($user);
     }
 
     public function view(User $user, Student $student): bool
     {
-        return $this->sameTenant($user, $student) && $this->hasStaffRole($user);
+        if (! $this->sameTenant($user, $student)) {
+            return false;
+        }
+
+        if ($user->role === UserRole::Parent->value) {
+            return $user->isGuardianOf($student);
+        }
+
+        if ($user->role === UserRole::Student->value) {
+            return (int) $user->student_id === (int) $student->id;
+        }
+
+        if (! $this->hasAcademicStaffRole($user)) {
+            return false;
+        }
+
+        if ($user->role === UserRole::Teacher->value) {
+            return $user->teachesStudent($student);
+        }
+
+        return true;
     }
 
     public function create(User $user): bool
@@ -40,12 +60,15 @@ class StudentPolicy
         return (int) $user->tenant_id === (int) $model->getAttribute('tenant_id');
     }
 
-    private function hasStaffRole(User $user): bool
+    /**
+     * Accountants run the finance side and should not browse student profiles.
+     * Only academic staff (Admin / Proprietor / Teacher) can view students.
+     */
+    private function hasAcademicStaffRole(User $user): bool
     {
         return in_array($user->role, [
             UserRole::Admin->value,
             UserRole::Proprietor->value,
-            UserRole::Accountant->value,
             UserRole::Teacher->value,
         ], true);
     }
@@ -55,7 +78,6 @@ class StudentPolicy
         return in_array($user->role, [
             UserRole::Admin->value,
             UserRole::Proprietor->value,
-            UserRole::Teacher->value,
         ], true);
     }
 }

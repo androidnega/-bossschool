@@ -26,6 +26,7 @@ export default {
             },
             fontFamily: {
                 sans: [
+                    'Inter',
                     'ui-sans-serif',
                     'system-ui',
                     'Segoe UI',
@@ -39,6 +40,15 @@ export default {
                     'Segoe UI Symbol',
                     'Noto Color Emoji',
                 ],
+            },
+            borderRadius: {
+                '4xl': '2rem',
+                '5xl': '2.5rem',
+            },
+            boxShadow: {
+                soft: '0 24px 70px rgba(15, 23, 42, 0.10)',
+                card: '0 14px 40px rgba(15, 23, 42, 0.07)',
+                tiny: '0 8px 24px rgba(15, 23, 42, 0.06)',
             },
         },
     },

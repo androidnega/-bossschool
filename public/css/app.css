@@ -1,0 +1,148 @@
+/* ────────────────────────────────────────────────────────────────────────
+ * BossSchool — custom component classes
+ *
+ * Pure CSS. No @tailwind / @apply directives, no build step required.
+ * Loaded directly via <link rel="stylesheet" href="/css/app.css"> alongside
+ * the Tailwind CDN.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* Dashboard module cards — single-fill surfaces */
+.dash-card-students   { background-color: #eaf7f6; }
+.dash-card-revenue    { background-color: #eaf8ef; }
+.dash-card-debtors    { background-color: #fff7e6; }
+.dash-card-attendance { background-color: #eef2ff; }
+.dash-card-staff      { background-color: #f6f7fb; }
+.dash-card-results    { background-color: #f0fdf4; }
+.dash-card-messages   { background-color: #fdf2f8; }
+.dash-card-danger     { background-color: #fff1f2; }
+.dash-card-platform   { background-color: #f1f5f9; }
+.dash-card-neutral    { background-color: #fafaf9; }
+
+/* ─── Homepage — editorial, minimal, scoped .home-* ──────────────────── */
+.home-canvas {
+    background-color: #ffffff;
+    color: #0b0b0a;
+}
+
+.home-rule {
+    height: 1px;
+    background-color: #ececea;
+}
+
+.home-hairline {
+    border-top: 1px solid #ececea;
+}
+
+.home-card {
+    background-color: #ffffff;
+    border: 1px solid #ececea;
+    transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.home-card:hover {
+    border-color: #0b0b0a;
+    transform: translateY(-2px);
+}
+
+.home-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #3E8A8E;
+    display: inline-block;
+}
+
+.home-underline {
+    background-image: linear-gradient(120deg, #3E8A8E, #3E8A8E);
+    background-repeat: no-repeat;
+    background-position: 0 92%;
+    background-size: 100% 0.16em;
+    padding-bottom: 0.04em;
+}
+
+@keyframes home-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.home-in {
+    animation: home-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-in-1 { animation-delay:  40ms; }
+.home-in-2 { animation-delay: 160ms; }
+.home-in-3 { animation-delay: 320ms; }
+.home-in-4 { animation-delay: 480ms; }
+.home-in-5 { animation-delay: 640ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .home-in { animation: none; }
+}
+
+/* ─── Login card pull-in animation ───────────────────────────────────── */
+@keyframes login-card-pull-in {
+    from { transform: translate3d(2rem, 0, 0); opacity: 0.65; }
+    to   { transform: translate3d(0,    0, 0); opacity: 1;    }
+}
+
+.login-card-pull-in {
+    animation: login-card-pull-in 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.12s 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-card-pull-in {
+        animation: none !important;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* ─── Glass surfaces — flat, borders do the work ─────────────────────── */
+.glass-panel {
+    border: 1px solid rgb(231 229 228 / 0.9);
+    background-color: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.glass-panel-subtle {
+    border: 1px solid rgb(231 229 228 / 0.9);
+    background-color: rgb(255 255 255 / 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.glass-tile {
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.glass-tile:hover {
+    border-color: rgb(62 138 142 / 0.28);
+    background-color: rgb(255 255 255 / 0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glass-tile { transition: none; }
+
+    .glass-panel,
+    .glass-panel-subtle {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .glass-panel        { background-color: rgb(255 255 255 / 0.96); }
+    .glass-panel-subtle { background-color: rgb(255 255 255 / 0.94); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .glass-panel,
+    .glass-panel-subtle {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .glass-panel        { background-color: rgb(255 255 255 / 0.96); }
+    .glass-panel-subtle { background-color: rgb(255 255 255 / 0.94); }
+}

@@ -46,4 +46,12 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'tenant_id' => null,
+            'role' => UserRole::SuperAdmin->value,
+        ]);
+    }
 }
