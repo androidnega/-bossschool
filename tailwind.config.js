@@ -10,12 +10,12 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#3E8A8E',
-                secondary: '#7FA58C',
-                accent: '#B7C49A',
-                soft: '#E6EEC9',
+                primary: '#2563eb',
+                secondary: '#3b82f6',
+                accent: '#60a5fa',
+                soft: '#dbeafe',
                 page: '#FFFFFF',
-                'page-soft': '#F8FAF7',
+                'page-soft': '#f8fafc',
                 /** Marketing homepage background — light neutral grey (reference swatch) */
                 canvas: '#f0f0f0',
                 // Warm single-fill surfaces for cards (no gradients)

@@ -64,12 +64,12 @@
         width: 6px;
         height: 6px;
         border-radius: 9999px;
-        background-color: #3E8A8E;
+        background-color: #2563eb;
         display: inline-block;
     }
 
     .home-underline {
-        background-image: linear-gradient(120deg, #3E8A8E, #3E8A8E);
+        background-image: linear-gradient(120deg, #2563eb, #3b82f6);
         background-repeat: no-repeat;
         background-position: 0 92%;
         background-size: 100% 0.16em;
@@ -149,7 +149,7 @@
     }
 
     .glass-tile:hover {
-        border-color: rgb(62 138 142 / 0.28);
+        border-color: rgb(37 99 235 / 0.28);
         background-color: rgb(255 255 255 / 0.92);
     }
 
