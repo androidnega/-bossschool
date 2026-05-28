@@ -1,0 +1,41 @@
+# =============================================================================
+# BossSchool — root .htaccess for cPanel public_html/
+# =============================================================================
+# Why this file exists:
+#   On shared cPanel hosting, the document root is usually public_html/, but
+#   Laravel's real entry point lives at public_html/public/index.php. Without
+#   this file, visitors either get a directory listing or PHP serves random
+#   project files. This forwards every request into /public and locks down
+#   anything that should never be downloaded by a visitor.
+#
+# Two ways to deploy this file (both keep the URL clean — no /public in the
+# address bar):
+#   1. (Preferred) Change the domain's Document Root in cPanel → Domains to
+#      public_html/public. Then DELETE this file — Apache serves /public
+#      directly and Laravel's own public/.htaccess takes over.
+#   2. (Fallback) Keep this file at public_html/.htaccess. It forwards every
+#      request into /public.
+# =============================================================================
+
+# Stop the directory-listing leak that exposed the source tree.
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html
+
+# Belt-and-braces deny for files that must never be web-served.
+<FilesMatch "^(\.env|\.env\..*|\.git.*|composer\.(json|lock)|package(-lock)?\.json|artisan|start\.sh|.*\.sh|.*\.md|.*\.yml|.*\.yaml)$">
+    Require all denied
+</FilesMatch>
+
+# Deny browsing of any Laravel internals at the root level.
+RedirectMatch 404 ^/(app|bootstrap|config|database|deploy|resources|routes|storage|tests|vendor|node_modules)(/|$)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request is already inside /public, leave it alone.
+    RewriteCond %{REQUEST_URI} ^/public(/|$)
+    RewriteRule .* - [L]
+
+    # Otherwise rewrite everything into /public/...
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

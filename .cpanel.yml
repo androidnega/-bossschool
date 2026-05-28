@@ -1,0 +1,71 @@
+---
+# =============================================================================
+# BossSchool — cPanel Git Version Control deployment manifest.
+#
+# How to use:
+#   1. In cPanel → Git Version Control, click "Create".
+#   2. Clone URL: https://github.com/androidnega/-bossschool.git
+#   3. Repository Path: /home/<your-user>/repos/bossschool
+#   4. After the clone finishes, click "Manage" → "Pull or Deploy" tab →
+#      "Deploy HEAD Commit". cPanel runs the tasks below.
+#
+# Notes:
+#   - $DEPLOYPATH must point at your domain's web root (usually public_html/).
+#   - We rsync the repo into public_html/ AND copy the root .htaccess +
+#     index.php from deploy/public_html/ so visitors get forwarded into
+#     public/ correctly.
+#   - composer + php must be in PATH for the cPanel deploy user. On most
+#     cPanel boxes they are; if not, edit the absolute paths below.
+# =============================================================================
+
+deployment:
+  tasks:
+    - export DEPLOYPATH="$HOME/public_html/"
+    - /bin/mkdir -p "$DEPLOYPATH"
+
+    # 1. Sync repo into web root, excluding things the server should never see.
+    - >
+      /usr/bin/rsync -av --delete
+      --exclude='.git/'
+      --exclude='.github/'
+      --exclude='node_modules/'
+      --exclude='tests/'
+      --exclude='deploy/public_html/'
+      --exclude='.env'
+      --exclude='storage/logs/'
+      --exclude='storage/framework/cache/'
+      --exclude='storage/framework/sessions/'
+      --exclude='storage/framework/views/'
+      --exclude='public/storage'
+      ./ "$DEPLOYPATH"
+
+    # 2. Drop the root .htaccess + fallback index.php into public_html/.
+    - /bin/cp -f deploy/public_html/.htaccess "$DEPLOYPATH/.htaccess"
+    - /bin/cp -f deploy/public_html/index.php "$DEPLOYPATH/index.php"
+
+    # 3. Make sure storage/ and bootstrap/cache/ exist and are writable.
+    - /bin/mkdir -p "$DEPLOYPATH/storage/framework/cache"
+    - /bin/mkdir -p "$DEPLOYPATH/storage/framework/sessions"
+    - /bin/mkdir -p "$DEPLOYPATH/storage/framework/views"
+    - /bin/mkdir -p "$DEPLOYPATH/storage/logs"
+    - /bin/mkdir -p "$DEPLOYPATH/bootstrap/cache"
+    - /bin/chmod -R 775 "$DEPLOYPATH/storage" "$DEPLOYPATH/bootstrap/cache"
+
+    # 4. Install composer dependencies (production-only, optimized).
+    - cd "$DEPLOYPATH" && /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist || cd "$DEPLOYPATH" && composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+    # 5. Migrations + light idempotent seed (only platform/template data).
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan migrate --force --no-interaction
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan db:seed --class=PlatformBootstrapSeeder --force --no-interaction || true
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan db:seed --class=GhanaBasicSchoolTemplateSeeder --force --no-interaction || true
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan db:seed --class=PlansSeeder --force --no-interaction || true
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan db:seed --class=PermissionsSeeder --force --no-interaction || true
+
+    # 6. Storage symlink, caches.
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan storage:link --no-interaction || true
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan config:clear
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan route:clear
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan view:clear
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan config:cache
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan route:cache
+    - cd "$DEPLOYPATH" && /usr/bin/php artisan view:cache
