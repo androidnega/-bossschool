@@ -13,7 +13,7 @@
 
 <nav class="flex flex-1 flex-col gap-0.5 overflow-y-auto overscroll-contain p-3 text-sm" aria-label="{{ __('Main navigation') }}">
     @if($rk === 'proprietor')
-        <a href="{{ route('dashboard.proprietor') }}" class="{{ request()->routeIs('dashboard.proprietor') ? $navActive : $navBase }}">
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? $navActive : $navBase }}">
             <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.95rem] opacity-90" aria-hidden="true"></i>
             <span>{{ __('Dashboard') }}</span>
         </a>
@@ -64,7 +64,7 @@
             </a>
         @endcan
     @elseif($rk === 'admin')
-        <a href="{{ route('dashboard.admin') }}" class="{{ request()->routeIs('dashboard.admin') ? $navActive : $navBase }}">
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? $navActive : $navBase }}">
             <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.95rem] opacity-90" aria-hidden="true"></i>
             <span>{{ __('Dashboard') }}</span>
         </a>
@@ -109,7 +109,7 @@
             </a>
         @endcan
     @elseif($rk === 'accountant')
-        <a href="{{ route('dashboard.accountant') }}" class="{{ request()->routeIs('dashboard.accountant') ? $navActive : $navBase }}">
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? $navActive : $navBase }}">
             <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.95rem] opacity-90" aria-hidden="true"></i>
             <span>{{ __('Dashboard') }}</span>
         </a>
@@ -136,7 +136,7 @@
             </a>
         @endcan
     @elseif($rk === 'teacher')
-        <a href="{{ route('dashboard.teacher') }}" class="{{ request()->routeIs('dashboard.teacher') ? $navActive : $navBase }}">
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? $navActive : $navBase }}">
             <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.95rem] opacity-90" aria-hidden="true"></i>
             <span>{{ __('Dashboard') }}</span>
         </a>

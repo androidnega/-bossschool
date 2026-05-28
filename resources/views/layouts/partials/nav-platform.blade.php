@@ -6,7 +6,7 @@
 
 <nav class="flex flex-1 flex-col gap-1 overflow-y-auto overscroll-contain rounded-2xl border border-stone-200/80 bg-white p-2.5 text-sm" aria-label="{{ __('Platform navigation') }}">
     <p class="px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-wider text-stone-400">{{ __('Overview') }}</p>
-    <a href="{{ route('platform.dashboard') }}" class="{{ request()->routeIs('platform.dashboard') ? $navActive : $navBase }}">
+    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? $navActive : $navBase }}">
         <i class="fa-solid fa-gauge-high w-5 shrink-0 text-center text-[0.9rem] opacity-90" aria-hidden="true"></i>
         <span>{{ __('Dashboard') }}</span>
     </a>

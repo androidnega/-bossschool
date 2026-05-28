@@ -97,14 +97,10 @@ class User extends Authenticatable
     public function homeRoute(): string
     {
         return match ($this->role) {
-            UserRole::SuperAdmin->value => route('platform.dashboard'),
-            UserRole::Proprietor->value => route('dashboard.proprietor'),
-            UserRole::Admin->value => route('dashboard.admin'),
-            UserRole::Accountant->value => route('dashboard.accountant'),
-            UserRole::Teacher->value => route('dashboard.teacher'),
             UserRole::Parent->value => route('portal.parent.index'),
             UserRole::Student->value => route('portal.student.index'),
-            default => route('login'),
+            null, '' => route('login'),
+            default => route('dashboard'),
         };
     }
 

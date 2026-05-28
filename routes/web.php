@@ -5,9 +5,8 @@
 | School routes use `tenant` middleware. Platform routes use SuperAdmin only (no tenant).
 */
 
-use App\Http\Controllers\HomeRedirectController;
 use App\Http\Controllers\Platform\ActivityLogController;
-use App\Http\Controllers\Platform\DashboardController as PlatformDashboardController;
+use App\Http\Controllers\Web\DashboardController as UniversalDashboardController;
 use App\Http\Controllers\Platform\FeatureToggleController;
 use App\Http\Controllers\Platform\MaintenanceController as PlatformMaintenanceController;
 use App\Http\Controllers\Platform\NoticeController as PlatformNoticeController;
@@ -33,10 +32,6 @@ use App\Http\Controllers\Web\AttendanceController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\BillingController;
 use App\Http\Controllers\Web\PasswordResetController;
-use App\Http\Controllers\Web\Dashboards\AccountantDashboardController;
-use App\Http\Controllers\Web\Dashboards\AdminDashboardController;
-use App\Http\Controllers\Web\Dashboards\ProprietorDashboardController;
-use App\Http\Controllers\Web\Dashboards\TeacherDashboardController;
 use App\Http\Controllers\Web\DebtorsController;
 use App\Http\Controllers\Web\FeeController;
 use App\Http\Controllers\Web\HomeController;
@@ -103,13 +98,15 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/two-factor/disable', [\App\Http\Controllers\Web\TwoFactorController::class, 'redirectToShow']);
 });
 
+// Universal /dashboard — one URL for every authenticated role. The controller
+// dispatches internally to the role-appropriate dashboard view. Sub-pages
+// live under /dashboard/<slug> (the platform admin group below is URL-prefixed
+// with /dashboard while keeping route names as `platform.*` for stability).
 Route::middleware(['auth', 'maintenance'])->group(function (): void {
-    Route::get('/dashboard', HomeRedirectController::class)->name('dashboard');
+    Route::get('/dashboard', UniversalDashboardController::class)->name('dashboard');
 });
 
-Route::middleware(['auth', 'role:SuperAdmin'])->prefix('platform')->name('platform.')->group(function (): void {
-    Route::get('/dashboard', PlatformDashboardController::class)->name('dashboard');
-
+Route::middleware(['auth', 'role:SuperAdmin'])->prefix('dashboard')->name('platform.')->group(function (): void {
     Route::get('/settings', [PlatformSettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [PlatformSettingsController::class, 'update'])->name('settings.update');
 
@@ -196,21 +193,10 @@ Route::middleware(['auth', 'role:SuperAdmin'])->prefix('platform')->name('platfo
     Route::post('/notices', [PlatformNoticeController::class, 'store'])->name('notices.store');
 });
 
-Route::middleware(['auth', 'maintenance', 'tenant', 'role:Proprietor'])->group(function (): void {
-    Route::get('/dashboard/proprietor', ProprietorDashboardController::class)->name('dashboard.proprietor');
-});
-
-Route::middleware(['auth', 'maintenance', 'tenant', 'role:Admin'])->group(function (): void {
-    Route::get('/dashboard/admin', AdminDashboardController::class)->name('dashboard.admin');
-});
-
-Route::middleware(['auth', 'maintenance', 'tenant', 'role:Accountant'])->group(function (): void {
-    Route::get('/dashboard/accountant', AccountantDashboardController::class)->name('dashboard.accountant');
-});
-
-Route::middleware(['auth', 'maintenance', 'tenant', 'role:Teacher'])->group(function (): void {
-    Route::get('/dashboard/teacher', TeacherDashboardController::class)->name('dashboard.teacher');
-});
+// Role-specific dashboards are now served by the universal /dashboard
+// route above (UniversalDashboardController dispatches by role). The
+// old /dashboard/proprietor, /dashboard/admin, /dashboard/accountant,
+// /dashboard/teacher URLs have been removed.
 
 Route::middleware(['auth', 'maintenance', 'feature:parent_portal', 'tenant', 'role:Parent'])->prefix('portal/parent')->name('portal.parent.')->group(function (): void {
     Route::get('/', [ParentPortalController::class, 'index'])->name('index');
