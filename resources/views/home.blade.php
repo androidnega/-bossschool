@@ -60,25 +60,25 @@
 
         {{-- ─────────────── Hero (fills the remaining viewport) ─────────────── --}}
         <main class="relative z-10 flex flex-1 items-center">
-            <div class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-                <div class="grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
+            <div class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
+                <div class="grid items-center gap-7 sm:gap-10 lg:grid-cols-12 lg:gap-12">
 
                     {{-- Left copy --}}
-                    <div class="space-y-5 text-center sm:space-y-6 lg:col-span-6 lg:text-left">
-                        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-[11px] font-bold text-blue-700 shadow-sm sm:text-xs">
+                    <div class="min-w-0 space-y-4 text-center sm:space-y-6 lg:col-span-6 lg:text-left">
+                        <div class="inline-flex max-w-full items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-[11px] font-bold text-blue-700 shadow-sm sm:text-xs">
                             <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
                             </span>
-                            {{ __('Built for Ghanaian basic schools') }}
+                            <span class="truncate">{{ __('Built for Ghanaian basic schools') }}</span>
                         </div>
 
-                        <h1 class="text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0a1228] sm:text-5xl sm:leading-[1.05] lg:text-[52px]">
+                        <h1 class="break-words text-[1.6rem] font-extrabold leading-[1.15] tracking-tight text-[#0a1228] sm:text-5xl sm:leading-[1.05] lg:text-[52px]">
                             {{ __('A calm classroom companion for') }}
                             <span class="gradient-text">{{ __('every Ghanaian school') }}</span>.
                         </h1>
 
-                        <p class="mx-auto max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
+                        <p class="mx-auto max-w-xl text-sm leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
                             {{ __('Admissions, fees, attendance, results, report cards and parent messaging — one quiet workspace built for primary and JHS schools.') }}
                         </p>
 
