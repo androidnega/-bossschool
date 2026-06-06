@@ -10,22 +10,52 @@
 </head>
 <body class="h-[100dvh] overflow-hidden bg-stone-100 font-sans text-gray-900 antialiased">
     <div class="flex h-full overflow-hidden">
+        {{-- Hidden checkbox drives the CSS-only mobile drawer.
+             A small inline script below the layout adds Escape-to-close,
+             body scroll-lock, and auto-close on nav-link tap. --}}
         <input type="checkbox" id="mobile-sidebar" class="peer sr-only" aria-label="{{ __('Toggle navigation') }}">
 
-        <label for="mobile-sidebar" class="fixed inset-0 z-30 hidden bg-stone-900/25 peer-checked:block lg:hidden" aria-hidden="true"></label>
+        {{-- Backdrop. Fades in/out smoothly; click-anywhere to close. --}}
+        <label for="mobile-sidebar"
+               class="invisible fixed inset-0 z-30 bg-stone-900/45 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 ease-out peer-checked:visible peer-checked:opacity-100 lg:hidden"
+               aria-hidden="true"></label>
 
-        <aside class="fixed inset-y-0 left-0 z-40 flex w-[min(17rem,88vw)] max-w-[17rem] shrink-0 -translate-x-full flex-col border-r border-stone-200/90 bg-stone-50 transition-transform duration-200 ease-out peer-checked:translate-x-0 lg:static lg:z-0 lg:translate-x-0 lg:shrink-0">
-            @include('layouts.partials.app-sidebar')
+        <aside id="app-drawer"
+               class="fixed inset-y-0 left-0 z-40 flex w-[min(18rem,86vw)] max-w-[18rem] shrink-0 -translate-x-full flex-col border-r border-stone-200/90 bg-stone-50 shadow-xl shadow-stone-900/10 transition-transform duration-200 ease-out peer-checked:translate-x-0 lg:static lg:z-0 lg:w-[17rem] lg:max-w-[17rem] lg:translate-x-0 lg:shrink-0 lg:shadow-none"
+               style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);"
+               aria-label="{{ __('Primary navigation') }}">
+            {{-- Mobile-only drawer header with explicit close affordance. --}}
+            <div class="flex shrink-0 items-center justify-between border-b border-stone-200/80 px-4 py-3 lg:hidden">
+                <span class="text-[0.65rem] font-semibold uppercase tracking-wider text-stone-500">{{ __('Menu') }}</span>
+                <label for="mobile-sidebar"
+                       class="inline-flex size-9 cursor-pointer items-center justify-center rounded-lg text-stone-500 transition hover:bg-stone-200/60 hover:text-stone-800 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                       aria-label="{{ __('Close menu') }}">
+                    <i class="fa-solid fa-xmark text-base" aria-hidden="true"></i>
+                </label>
+            </div>
+
+            <div class="flex min-h-0 flex-1 flex-col">
+                @include('layouts.partials.app-sidebar')
+            </div>
         </aside>
 
         <div class="flex min-h-0 min-w-0 flex-1 flex-col bg-white">
-            <header class="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200/90 bg-white px-3 py-2.5 sm:px-4 lg:px-6">
-                <div class="flex min-w-0 flex-1 items-center gap-3">
-                    <label for="mobile-sidebar" class="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-600 transition hover:bg-stone-50 lg:hidden">
-                        <span class="sr-only">{{ __('Open menu') }}</span>
+            <header class="flex shrink-0 items-center justify-between gap-3 border-b border-stone-200/90 bg-white px-3 py-2.5 sm:px-4 lg:px-6">
+                <div class="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3">
+                    <label for="mobile-sidebar"
+                           class="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-600 transition hover:bg-stone-50 active:bg-stone-100 lg:hidden"
+                           aria-label="{{ __('Open menu') }}"
+                           aria-controls="app-drawer">
                         <i class="fa-solid fa-bars text-lg" aria-hidden="true"></i>
                     </label>
-                    <span class="hidden min-w-0 truncate text-sm font-semibold text-stone-800 lg:inline">@yield('header-title', '')</span>
+                    {{-- Brand mark (mobile only) — tappable, goes to /dashboard.
+                         Replaces the empty header space on phones. --}}
+                    <a href="{{ route('dashboard') }}" class="flex shrink-0 items-center lg:hidden" aria-label="BossSchool">
+                        <span class="flex size-8 items-center justify-center rounded-md bg-primary text-sm font-bold text-white" aria-hidden="true">B</span>
+                    </a>
+                    {{-- Page title — visible on every viewport, but truncates
+                         gracefully on phones so it shares space with the brand. --}}
+                    <span class="min-w-0 truncate text-sm font-semibold text-stone-800">@yield('header-title', '')</span>
                 </div>
                 <div class="flex shrink-0 items-center gap-2 text-sm sm:gap-3">
                     @include('layouts.partials.user-menu')
@@ -66,21 +96,55 @@
         </div>
     </div>
 
-    {{-- Mobile: auto-close the sidebar drawer when the user taps a nav
-         link (otherwise it stays open on top of the page they just
-         navigated to until they manually dismiss it). --}}
+    {{-- Mobile sidebar polish. Three jobs:
+         1. Auto-close the drawer when a nav link is tapped.
+         2. Close on Escape (matches native dialog behavior).
+         3. Lock body scroll while the drawer is open so the page
+            underneath doesn't bounce on iOS Safari. --}}
     <script>
         (function () {
             var toggle = document.getElementById('mobile-sidebar');
             if (! toggle) return;
+
+            var mobileQuery = window.matchMedia('(max-width: 1023px)');
+
+            function isMobile() { return mobileQuery.matches; }
+
+            function applyScrollLock() {
+                if (toggle.checked && isMobile()) {
+                    document.body.classList.add('drawer-open');
+                } else {
+                    document.body.classList.remove('drawer-open');
+                }
+            }
+
+            // Auto-close on nav link tap.
             document.querySelectorAll('aside nav a').forEach(function (link) {
                 link.addEventListener('click', function () {
-                    if (window.matchMedia('(max-width: 1023px)').matches) {
-                        toggle.checked = false;
-                    }
+                    if (isMobile()) toggle.checked = false;
                 });
             });
+
+            // Escape key closes the drawer.
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && toggle.checked && isMobile()) {
+                    toggle.checked = false;
+                    applyScrollLock();
+                }
+            });
+
+            // Re-apply scroll lock whenever the toggle state or viewport
+            // size changes (e.g. user rotates phone or resizes window).
+            toggle.addEventListener('change', applyScrollLock);
+            mobileQuery.addEventListener('change', applyScrollLock);
+            applyScrollLock();
         })();
     </script>
+    <style>
+        /* Belt-and-braces scroll lock for iOS Safari. The body is already
+           overflow-hidden but this makes 100% sure the page underneath
+           doesn't rubber-band while the drawer is open. */
+        body.drawer-open { overflow: hidden; touch-action: none; }
+    </style>
 </body>
 </html>
