@@ -54,6 +54,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
+// Static marketing pages. Cached by Laravel's view layer; no controller
+// needed because they don't take user input or render dynamic data.
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
+
 Route::get('/health', [\App\Http\Controllers\HealthController::class, 'simple'])->name('health');
 
 // First-run SuperAdmin bootstrap. Self-locks once a SuperAdmin exists; the

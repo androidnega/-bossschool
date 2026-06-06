@@ -56,33 +56,7 @@
             <div class="glow-b glow-anim-2 absolute" style="top:-100px; right:5%; width:460px; height:460px;"></div>
         </div>
 
-        {{-- ─────────────── Top nav ─────────────── --}}
-        <header class="relative z-20 border-b border-slate-200/60 bg-[#f4f8ff]/80 backdrop-blur-xl">
-            <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:gap-3 sm:px-6 lg:px-8">
-                <a href="{{ route('home') }}" class="group flex min-w-0 items-center gap-2 sm:gap-3">
-                    <div class="brand-mark flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white transition-transform group-hover:scale-105 sm:h-11 sm:w-11 sm:rounded-xl">
-                        <i class="fa-solid fa-graduation-cap text-base sm:text-xl"></i>
-                    </div>
-                    <span class="truncate text-base font-extrabold tracking-tight text-[#0a1228] sm:text-xl">
-                        Boss<span class="gradient-text">School</span>
-                    </span>
-                </a>
-
-                <div class="flex shrink-0 items-center gap-2 sm:gap-3">
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="cta-grad rounded-lg px-3 py-2 text-xs font-bold text-white sm:rounded-xl sm:px-5 sm:py-2.5 sm:text-sm">
-                            {{ __('Open dashboard') }}
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="hidden px-4 py-2 text-sm font-bold text-slate-700 transition-colors hover:text-blue-600 sm:inline-block">{{ __('Sign in') }}</a>
-                        <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="rounded-lg bg-[#0a1228] px-3 py-2 text-xs font-bold text-white shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:bg-slate-900 active:translate-y-0 sm:rounded-xl sm:px-5 sm:py-2.5 sm:text-sm">
-                            <span class="hidden sm:inline">{{ __('Book demo') }}</span>
-                            <span class="sm:hidden">{{ __('Demo') }}</span>
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </header>
+        @include('layouts.partials.marketing-nav', ['active' => 'home'])
 
         {{-- ─────────────── Hero (fills the remaining viewport) ─────────────── --}}
         <main class="relative z-10 flex flex-1 items-center">
@@ -117,9 +91,9 @@
                                 <a href="{{ route('login') }}" class="cta-grad w-full rounded-xl px-6 py-3.5 text-center text-sm font-bold text-white sm:w-auto sm:px-8 sm:py-4">
                                     {{ __('Sign in') }}
                                 </a>
-                                <a href="mailto:hello@bossschool.com?subject=BossSchool%20demo%20request" class="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-center text-sm font-bold text-slate-800 shadow-sm transition-all hover:bg-slate-50 sm:w-auto sm:px-8 sm:py-4">
-                                    <i class="fa-solid fa-paper-plane text-blue-600 transition-transform group-hover:translate-x-0.5"></i>
-                                    {{ __('Request a demo') }}
+                                <a href="{{ route('about') }}" class="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-center text-sm font-bold text-slate-800 shadow-sm transition-all hover:bg-slate-50 sm:w-auto sm:px-8 sm:py-4">
+                                    <i class="fa-solid fa-circle-info text-blue-600 transition-transform group-hover:scale-110"></i>
+                                    {{ __('About us') }}
                                 </a>
                             @endauth
                         </div>
@@ -160,18 +134,7 @@
             </div>
         </main>
 
-        {{-- ─────────────── Minimal footer ─────────────── --}}
-        <footer class="relative z-10 border-t border-slate-200/60 bg-white/60 backdrop-blur">
-            <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-3 text-[11px] font-medium text-slate-500 sm:flex-row sm:px-6 sm:text-xs lg:px-8">
-                <p>&copy; {{ now()->year }} BossSchool · {{ __('Accra, Ghana') }}</p>
-                <div class="flex items-center gap-4">
-                    <a href="mailto:hello@bossschool.com" class="transition-colors hover:text-blue-600">{{ __('hello@bossschool.com') }}</a>
-                    @guest
-                        <a href="{{ route('login') }}" class="font-semibold transition-colors hover:text-blue-600">{{ __('Sign in') }}</a>
-                    @endguest
-                </div>
-            </div>
-        </footer>
+        @include('layouts.partials.marketing-footer')
 
     </div>
 @endsection

@@ -37,16 +37,28 @@
 
                 <div>
                     <label for="password" class="mb-1 block text-xs font-medium text-stone-700">{{ __('Password') }}</label>
-                    <input id="password" name="password" type="password" required autocomplete="new-password"
-                        class="block h-9 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 transition focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30 @error('password') border-red-400 @enderror">
+                    <div class="relative">
+                        <input id="password" name="password" type="password" required autocomplete="new-password"
+                            class="block h-9 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 pr-9 text-sm text-stone-900 transition focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30 @error('password') border-red-400 @enderror">
+                        <button type="button" data-pw-toggle="password" aria-label="{{ __('Show password') }}" aria-pressed="false"
+                            class="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-stone-400 transition hover:text-stone-600 focus:text-primary focus:outline-none">
+                            <i class="fa-solid fa-eye text-xs" data-pw-icon aria-hidden="true"></i>
+                        </button>
+                    </div>
                     <p class="mt-1 text-[11px] text-stone-500">{{ __('At least 12 characters with mixed case and a number.') }}</p>
                     @error('password')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
                     <label for="password_confirmation" class="mb-1 block text-xs font-medium text-stone-700">{{ __('Confirm password') }}</label>
-                    <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
-                        class="block h-9 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 transition focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30">
+                    <div class="relative">
+                        <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
+                            class="block h-9 w-full rounded-lg border border-stone-200 bg-white px-3 py-2 pr-9 text-sm text-stone-900 transition focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30">
+                        <button type="button" data-pw-toggle="password_confirmation" aria-label="{{ __('Show password') }}" aria-pressed="false"
+                            class="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-stone-400 transition hover:text-stone-600 focus:text-primary focus:outline-none">
+                            <i class="fa-solid fa-eye text-xs" data-pw-icon aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit"

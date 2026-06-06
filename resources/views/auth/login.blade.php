@@ -21,8 +21,14 @@
 
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input id="password" name="password" type="password" required autocomplete="current-password"
-                    class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                <div class="relative mt-1">
+                    <input id="password" name="password" type="password" required autocomplete="current-password"
+                        class="w-full rounded border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                    <button type="button" data-pw-toggle="password" aria-label="Show password" aria-pressed="false"
+                        class="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-gray-400 transition hover:text-gray-600 focus:text-primary focus:outline-none">
+                        <i class="fa-solid fa-eye text-sm" data-pw-icon aria-hidden="true"></i>
+                    </button>
+                </div>
                 @error('password')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
